@@ -1,0 +1,68 @@
+/* Reset base */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2dfd3; /* colore più chiaro come sfondo */
+    color: #3b2a1a;
+}
+
+/* Contenitore principale */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background-color: #964b00; /* marrone scuro */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+/* Navigazione */
+nav {
+    background-color: #ac6730; /* marrone medio */
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Filtro Ricerca */
+.search-filter {
+    background-color: #c08457;
+    padding: 15px;
+    text-align: center;
+}
+
+/* Contenuto */
+main {
+    flex: 1;
+    background-color: #d3a27f;
+    padding: 30px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+/* Footer */
+footer {
+    background-color: #7c3f06; /* più scuro */
+    color: white;
+    text-align: center;
+    padding: 15px;
+    font-size: 0.9em;
+}
