@@ -1,0 +1,22 @@
+# File: .gitignore
+
+# Ignora il file di connessione locale che contiene le password
+db_connection.php
+
+# Ignora i file di database SQLite e i file di progetto di DB Browser
+*.db
+*.sqlite
+*.sqlite3
+*.sqbpro
+
+# Ignora i file CSV generati dallo script Python
+*.csv
+
+# Ignora le cartelle di cache e ambienti virtuali di Python
+__pycache__/
+venv/
+env/
+
+# Ignora i file di sistema specifici di macOS e Windows
+.DS_Store
+Thumbs.db
