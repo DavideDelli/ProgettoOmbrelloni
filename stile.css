@@ -20,19 +20,18 @@ body {
 
 /* Header */
 header {
-    background: linear-gradient(90deg, #964b00, #7c3f06); /* sfumatura marrone */
-    color: #fff;
+    background: linear-gradient(90deg, #964b00, #7c3f06); /* sfumatura marrone scuro */
+    color: #D2A679; /* marroncino chiaro per il testo */
     text-align: center;
     padding: 30px 20px;
     font-size: 2.8em;         /* più grande */
     font-weight: 900;         /* extra bold */
     text-transform: uppercase;    /* tutto maiuscolo */
     letter-spacing: 2px;      /* spaziatura fra lettere */
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 1); /* ombra sul testo */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 1);   /* ombra sotto header */
+    text-shadow: 2px 2px 6px #2b1a0e; /* ombra marrone scurissimo */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);   /* ombra sotto header */
 }
 
-/* Navigazione */
 nav {
     background-color: #ac6730; /* marrone medio */
     color: white;
@@ -40,16 +39,32 @@ nav {
     text-align: center;
     font-size: 1.2em;
 }
-
 nav a {
     color: white;
     text-decoration: none;
     margin: 0 15px;
     font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px; /* leggero arrotondamento al passaggio */
+    transition: background 0.3s, color 0.3s;
 }
 
+/* Hover normale */
 nav a:hover {
-    text-decoration: underline;
+    background-color: #7c3f06; /* marrone scuro */
+    color: #D2A679; /* marroncino chiaro sul hover */
+}
+
+/* Link attivo corrente */
+nav a.active {
+    background-color: #7c3f06; /* marrone scuro */
+    color: #D2A679;             /* testo marroncino chiaro */
+}
+
+/* Hover sul link attivo */
+nav a.active:hover {
+    background-color: #964b00; /* leggermente più chiaro rispetto al marrone scuro */
+    color: white;               /* testo bianco per contrasto */
 }
 
 /* Filtro Ricerca */
@@ -74,7 +89,23 @@ footer {
     background-color: #7c3f06; /* più scuro */
     color: white;
     text-align: center;
-    padding: 150px;
+    padding: 15px;
     font-size: 0.9em;
 }
 
+input, button {
+    font-size: 16px;               /* dimensione testo interna minore di 18px */
+    background-color: #773d03;     /* marrone scuro come header */
+    color: white;                  /* testo bianco */
+    font-weight: bold;              /* testo in grassetto */
+    border: none;                  /* senza bordo */
+    padding: 4px 22px;            /* dimensione bottone */
+    cursor: pointer;               /* cambio cursore al passaggio */
+    border-radius: 5px;            /* angoli leggermente arrotondati */
+    transition: background 0.3s;   /* effetto hover morbido */
+}
+
+input:hover, button:hover {
+    background-color: #7c3f06;     /* marrone ancora più scuro al passaggio */
+    color: white;                  /* assicura che il testo resti bianco anche al hover */
+}
