@@ -1,4 +1,15 @@
- <?php
+<?php
+// ====================================================================
+//      INIZIO BLOCCO PER MOSTRARE GLI ERRORI (DA INSERIRE QUI)
+// ====================================================================
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// ====================================================================
+//      FINE BLOCCO PER MOSTRARE GLI ERRORI
+// ====================================================================
+
+
 // Includi il file di connessione al database
 require_once 'db_connection.php';
 
@@ -143,4 +154,4 @@ if (isset($_GET['data_ricerca']) && !empty($_GET['data_ricerca'])) {
         </footer>
     </div>
 </body>
-</html>
+</html>
