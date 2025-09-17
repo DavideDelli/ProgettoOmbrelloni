@@ -101,11 +101,17 @@ input, button {
     border: none;                  /* senza bordo */
     padding: 4px 22px;            /* dimensione bottone */
     cursor: pointer;               /* cambio cursore al passaggio */
-    border-radius: 5px;            /* angoli leggermente arrotondati */
+    border-radius: 50px;            /* angoli leggermente arrotondati */
     transition: background 0.3s;   /* effetto hover morbido */
 }
 
 input:hover, button:hover {
     background-color: #7c3f06;     /* marrone ancora più scuro al passaggio */
-    color: white;                  /* assicura che il testo resti bianco anche al hover */
+    color: white; /* assicura che il testo resti bianco anche al hover */
+     text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    transform: scale(1.05); /* ingrandisce un po' al passaggio */                 
+}
+
+input:active, button:active {
+    transform: scale(0.9); /* effetto pressione al click */
 }
