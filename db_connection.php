@@ -4,7 +4,7 @@
 // --- CONFIGURAZIONE DATABASE ---
 // Modifica questi valori in base al tuo ambiente
 $db_host = 'localhost';      // Solitamente 'localhost'
-$db_name = 'noleggio_ombrelloni'; // Il nome del database che hai creato
+$db_name = 'ombrelloni'; // Il nome del database che hai creato
 $db_user = 'root';           // L'utente del database (di default 'root' in XAMPP)
 $db_password = '7733';           // La password (di default vuota in XAMPP)
 $charset = 'utf8mb4';
