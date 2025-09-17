@@ -1,0 +1,80 @@
+/* Stile base comune */
+body, header, nav, .search-filter, main, footer {
+    font-family: Arial, sans-serif; /* forzato ovunque */
+}
+
+/* Reset base */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2dfd3; /* colore più chiaro come sfondo */
+    color: #3b2a1a;
+}
+
+/* Contenitore principale */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background: linear-gradient(90deg, #964b00, #7c3f06); /* sfumatura marrone */
+    color: #fff;
+    text-align: center;
+    padding: 30px 20px;
+    font-size: 2.8em;         /* più grande */
+    font-weight: 900;         /* extra bold */
+    text-transform: uppercase;    /* tutto maiuscolo */
+    letter-spacing: 2px;      /* spaziatura fra lettere */
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 1); /* ombra sul testo */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 1);   /* ombra sotto header */
+}
+
+/* Navigazione */
+nav {
+    background-color: #ac6730; /* marrone medio */
+    color: white;
+    padding: 20px 15px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Filtro Ricerca */
+.search-filter {
+    background-color: #c08457;
+    padding: 18px;   
+    text-align: center;
+    font-size: 1.1em;
+}
+
+/* Contenuto */
+main {
+    flex: 1;
+    background-color: #d3a27f;
+    padding: 30px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+/* Footer */
+footer {
+    background-color: #7c3f06; /* più scuro */
+    color: white;
+    text-align: center;
+    padding: 150px;
+    font-size: 0.9em;
+}
+
