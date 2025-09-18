@@ -115,3 +115,203 @@ input:hover, button:hover {
 input:active, button:active {
     transform: scale(0.9); /* effetto pressione al click */
 }
+
+/* --- STILI PER LA MAPPA DEGLI OMBRELLONI (STILE CINEMA) --- */
+.mappa-spiaggia {
+    width: 100%;
+    overflow-x: auto;
+    padding: 20px 0; /* Aggiunge un po' di spazio sopra e sotto */
+    background-color: transparent; /* Rende lo sfondo trasparente */
+    border: none; /* Rimuove il bordo */
+    margin-top: 20px;
+}
+
+.settore-grid {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.settore-grid h4 {
+    background-color: #7c3f06;
+    color: white;
+    padding: 8px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.fila {
+    display: flex; /* Allinea gli ombrelloni in una riga orizzontale */
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.numero-fila {
+    font-weight: bold;
+    margin-right: 15px;
+    width: 50px;
+    text-align: right;
+    font-size: 0.9em;
+    color: #555;
+}
+
+/* Stile base per tutti i quadrati (ombrelloni e spazi vuoti) */
+.ombrellone, .spazio-vuoto {
+    width: 35px;
+    height: 35px;
+    margin: 3px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8em;
+    transition: transform 0.2s;
+    text-decoration: none; /* Rimuove la sottolineatura dai link */
+}
+
+.ombrellone:hover {
+    transform: scale(1.1); /* Effetto ingrandimento al passaggio del mouse */
+}
+
+.spazio-vuoto {
+    background-color: transparent;
+    border: 1px dashed transparent;
+}
+
+/* Colori basati sulla disponibilità e tipologia */
+.ombrellone.disponibile {
+    background-color: #28a745; /* VERDE per ombrelloni normali disponibili */
+    color: white;
+    border: 1px solid #1e7e34;
+    cursor: pointer;
+}
+
+.ombrellone.disponibile.vip {
+    background-color: #ffc107; /* GIALLO per ombrelloni VIP disponibili */
+    color: #000; /* Testo nero per leggibilità su sfondo giallo */
+    border: 1px solid #d39e00;
+}
+
+.ombrellone.occupato {
+    background-color: #dc3545; /* ROSSO per tutti gli ombrelloni occupati */
+    color: white;
+    border: 1px solid #b21f2d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Stili per la legenda ombrelloni */
+.legenda {
+    margin: 20px 0 30px 0;   /* Aggiunto più margine inferiore per distanziare dalla mappa */
+    text-align: center;
+    font-size: 1.1em;       /* Aumentata la dimensione del testo */
+    font-weight: bold;      /* Reso il testo in grassetto per maggiore visibilità */
+}
+
+.legenda .box {
+    display: inline-block;
+    width: 20px;            /* Aumentata la larghezza del quadratino */
+    height: 20px;           /* Aumentata l'altezza del quadratino */
+    margin-right: 8px;      /* Leggero aumento dello spazio a destra */
+    margin-left: 25px;      /* Leggero aumento dello spazio a sinistra */
+    border: 1px solid #555;
+    vertical-align: middle;
+    border-radius: 3px;     /* Angoli leggermente arrotondati */
+}
+
+/* Le regole per i colori dei box rimangono invariate */
+.legenda .box.disponibile { background-color: #28a745; }
+.legenda .box.vip { background-color: #ffc107; }
+.legenda .box.occupato { background-color: #dc3545; }
+
+/* --- STILI PER LA NUOVA VISTA SPIAGGIA INTERATTIVA --- */
+
+/* Regola per nascondere gli elementi */
+.hidden {
+    display: none !important;
+}
+
+#vista-spiaggia {
+    padding: 20px;
+    border: 3px solid #ac6730;
+    border-radius: 10px;
+    background-color: #f2dfd3; /* Sabbia */
+}
+
+.mare {
+    height: 150px;
+    background: linear-gradient(to bottom, #87ceeb, #4682b4); /* Sfumatura per il mare */
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.spiaggia {
+    min-height: 200px;
+    background-color: #f4a460; /* Sabbia più scura */
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+}
+
+.bottone-settore {
+    background-color: #3b2a1a; /* Marrone scuro quasi nero */
+    color: white;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 20px 40px;
+    border: 3px solid #2b1e14;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.bottone-settore:hover {
+    background-color: #5a4a3a;
+    transform: translateY(-5px); /* Effetto di sollevamento */
+    box-shadow: 0 10px 15px rgba(0,0,0,0.2);
+}
+
+.torna-alla-mappa {
+    display: block;
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: #7c3f06;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+.torna-alla-mappa:hover {
+    text-decoration: underline;
+}
+
+.sector-grid-container {
+    animation: fadeIn 0.5s;
+}
+
+/* Piccola animazione di entrata */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* --- STILI PER MESSAGGI DI ERRORE/SUCCESSO --- */
+
+.messaggio {
+    padding: 15px 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 20px auto;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.messaggio.errore {
+    background-color: #f8d7da; /* Rosso chiaro */
+    color: #721c24; /* Rosso scuro */
+    border: 1px solid #f5c6cb;
+}
