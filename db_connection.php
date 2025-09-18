@@ -2,7 +2,7 @@
 // Impostazioni per la connessione al database
 $host = 'localhost';
 $dbname = 'my_ombrelloni';
-$user = 'ombrelloni_user'; // <-- NUOVO UTENTE
+$user = 'root'; // <-- NUOVO UTENTE
 $password = '';    // <-- LA NUOVA PASSWORD CHE HAI SCELTO
 
 // ... il resto del file rimane invariato ...
