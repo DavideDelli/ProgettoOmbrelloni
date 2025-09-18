@@ -1,23 +1,39 @@
 <?php
+// Abilita la visualizzazione degli errori per il debug
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'db_connection.php';
 
 $ombrellone = null;
 $errore = '';
 $data_selezionata = '';
 
+// Controlla se abbiamo ricevuto i dati necessari (ID ombrellone e data)
 if (isset($_GET['id']) && isset($_GET['data']) && !empty($_GET['id']) && !empty($_GET['data'])) {
+    
     $id_ombrellone = $_GET['id'];
     $data_selezionata = $_GET['data'];
 
-    $sql = "SELECT o.id, o.settore, o.numFila, o.numPostoFila, t.nome AS nome_tipologia, t.descrizione 
-            FROM Ombrellone o JOIN Tipologia t ON o.codTipologia = t.codice WHERE o.id = :id_ombrellone";
+    // CORREZIONE: 'Ombrellone' -> 'ombrellone' e 'Tipologia' -> 'tipologia'
+    $sql = "
+        SELECT o.id, o.settore, o.numFila, o.numPostoFila, t.nome AS nome_tipologia, t.descrizione 
+        FROM ombrellone o 
+        JOIN tipologia t ON o.codTipologia = t.codice 
+        WHERE o.id = :id_ombrellone
+    ";
+    
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['id_ombrellone' => $id_ombrellone]);
     $ombrellone = $stmt->fetch();
 
-    if (!$ombrellone) $errore = "Ombrellone non trovato.";
+    if (!$ombrellone) {
+        $errore = "Ombrellone non trovato.";
+    }
+
 } else {
-    $errore = "Dati mancanti. Impossibile procedere.";
+    $errore = "Dati mancanti. Impossibile procedere con la prenotazione.";
 }
 ?>
 <!DOCTYPE html>
@@ -31,7 +47,11 @@ if (isset($_GET['id']) && isset($_GET['data']) && !empty($_GET['id']) && !empty(
 <body>
     <div class="container">
         <header>Riepilogo Prenotazione</header>
-        <nav><a href="index.php">Torna alla Mappa</a><a href="#">Servizi</a><a href="#">Contatti</a></nav>
+        <nav>
+            <a href="index.php">Torna alla Mappa</a>
+            <a href="#">Servizi</a>
+            <a href="#">Contatti</a>
+        </nav>
         <main>
             <?php if ($errore): ?>
                 <div class="messaggio errore">
@@ -47,14 +67,18 @@ if (isset($_GET['id']) && isset($_GET['data']) && !empty($_GET['id']) && !empty(
                     <p><strong>Posizione:</strong> Settore <?= htmlspecialchars($ombrellone['settore']) ?>, Fila <?= htmlspecialchars($ombrellone['numFila']) ?>, Posto <?= htmlspecialchars($ombrellone['numPostoFila']) ?></p>
                     <p><strong>Tipologia:</strong> <?= htmlspecialchars($ombrellone['nome_tipologia']) ?> (<?= htmlspecialchars($ombrellone['descrizione']) ?>)</p>
                 </div>
+
                 <form action="conferma.php" method="POST" class="form-prenotazione">
                     <h3>Inserisci i tuoi dati</h3>
+                    
                     <input type="hidden" name="id_ombrellone" value="<?= htmlspecialchars($ombrellone['id']) ?>">
                     <input type="hidden" name="data_prenotazione" value="<?= htmlspecialchars($data_selezionata) ?>">
+                    
                     <div class="form-group">
                         <label for="codice_cliente">Il tuo Codice Cliente:</label>
                         <input type="text" id="codice_cliente" name="codice_cliente" placeholder="Es. CLIENTE0001" required>
                     </div>
+                    
                     <div class="form-group">
                         <button type="submit">Conferma la Prenotazione</button>
                     </div>
@@ -64,4 +88,4 @@ if (isset($_GET['id']) && isset($_GET['data']) && !empty($_GET['id']) && !empty(
         <footer>© 2025 - Università degli Studi di Bergamo - Tutti i diritti riservati</footer>
     </div>
 </body>
-</html>
+</html>

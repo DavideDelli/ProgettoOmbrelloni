@@ -1,4 +1,9 @@
 <?php
+// Abilita la visualizzazione degli errori per il debug
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'db_connection.php';
 
 $messaggio = '';
@@ -14,14 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pdo->beginTransaction();
         try {
             // 1. Controlliamo se il cliente esiste
-            $stmt_cliente = $pdo->prepare("SELECT codice FROM Cliente WHERE codice = :codice");
+            // CORREZIONE: 'Cliente' è diventato 'cliente'
+            $stmt_cliente = $pdo->prepare("SELECT codice FROM cliente WHERE codice = :codice");
             $stmt_cliente->execute(['codice' => $codice_cliente]);
             if ($stmt_cliente->rowCount() == 0) {
                 throw new Exception("Codice Cliente non valido.");
             }
 
             // 2. Controlliamo se l'ombrellone è ancora libero per quella data (sicurezza aggiuntiva)
-            $stmt_check = $pdo->prepare("SELECT numProgrContratto FROM GiornoDisponibilita WHERE idOmbrellone = :id AND data = :data");
+            // CORREZIONE: 'GiornoDisponibilita' è diventato 'giornodisponibilita'
+            $stmt_check = $pdo->prepare("SELECT numProgrContratto FROM giornodisponibilita WHERE idOmbrellone = :id AND data = :data");
             $stmt_check->execute(['id' => $id_ombrellone, 'data' => $data_prenotazione]);
             $risultato_check = $stmt_check->fetch();
             if ($risultato_check && $risultato_check['numProgrContratto'] !== null) {
@@ -29,19 +36,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             // 3. Calcoliamo il prezzo (logica di esempio, puoi renderla più complessa)
-            $stmt_tipo = $pdo->prepare("SELECT codTipologia FROM Ombrellone WHERE id = :id");
+            // CORREZIONE: 'Ombrellone' è diventato 'ombrellone'
+            $stmt_tipo = $pdo->prepare("SELECT codTipologia FROM ombrellone WHERE id = :id");
             $stmt_tipo->execute(['id' => $id_ombrellone]);
             $tipologia = $stmt_tipo->fetchColumn();
             $prezzo = ($tipologia == 'VIP') ? 50.00 : 30.00; // Prezzo fisso giornaliero
 
             // 4. Inseriamo il nuovo contratto
-            $sql_contratto = "INSERT INTO Contratto (data, importo, codiceCliente) VALUES (CURDATE(), :importo, :codice)";
+            // CORREZIONE: 'Contratto' è diventato 'contratto'
+            $sql_contratto = "INSERT INTO contratto (data, importo, codiceCliente) VALUES (CURDATE(), :importo, :codice)";
             $stmt_contratto = $pdo->prepare($sql_contratto);
             $stmt_contratto->execute(['importo' => $prezzo, 'codice' => $codice_cliente]);
             $nuovo_contratto_id = $pdo->lastInsertId();
 
             // 5. Aggiorniamo la disponibilità dell'ombrellone
-            $sql_aggiorna = "UPDATE GiornoDisponibilita SET numProgrContratto = :id_contratto WHERE idOmbrellone = :id_ombrellone AND data = :data";
+            // CORREZIONE: 'GiornoDisponibilita' è diventato 'giornodisponibilita'
+            $sql_aggiorna = "UPDATE giornodisponibilita SET numProgrContratto = :id_contratto WHERE idOmbrellone = :id_ombrellone AND data = :data";
             $stmt_aggiorna = $pdo->prepare($sql_aggiorna);
             $stmt_aggiorna->execute([
                 'id_contratto' => $nuovo_contratto_id,
