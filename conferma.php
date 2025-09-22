@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a href="index.php" class="button-link">Torna alla Home Page</a>
             </div>
         </main>
-        <footer>© 2025 - Università degli Studi di Bergamo - Tutti i diritti riservati</footer>
+        <footer>© 2025 - Università degli Studi di Bergamo - Progetto Programmazione WEB</footer>
     </div>
 </body>
 </html>
