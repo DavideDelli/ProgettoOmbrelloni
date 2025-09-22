@@ -1,17 +1,12 @@
-/* Stile base comune */
-body, header, nav, .search-filter, main, footer {
-    font-family: Arial, sans-serif; /* forzato ovunque */
-}
-
-/* Reset base */
+/* Reset e Stili Globali */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #f2dfd3; /* colore più chiaro come sfondo */
+    background-color: #f2dfd3;
     color: #3b2a1a;
+    line-height: 1.6;
 }
 
-/* Contenitore principale */
 .container {
     display: flex;
     flex-direction: column;
@@ -23,67 +18,203 @@ header {
     background: linear-gradient(90deg, #964b00, #7c3f06);
     color: #D2A679;
     text-align: center;
-    padding: 30px 20px;
-    font-size: 2.8em;
+    padding: 2rem 1rem;
+    font-size: 2.5em;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 2px 2px 6px #2b1a0e;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Menu di navigazione */
+/* Navigazione */
 nav {
     background-color: #ac6730;
-    color: white;
-    padding: 20px 15px;
+    padding: 1rem;
     text-align: center;
-    font-size: 1.2em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 nav a {
     color: white;
     text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
-    padding: 8px 12px;
-    border-radius: 6px;
-    transition: background 0.3s, color 0.3s, transform 0.2s;
+    margin: 0 1.5rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    transition: background-color 0.3s, transform 0.2s;
 }
-nav a:hover {
+nav a:hover, nav a.active {
     background-color: #7c3f06;
-    color: #D2A679;
-    transform: scale(1.08);
-}
-nav a.active {
-    background-color: #7c3f06;
-    color: #D2A679;
-}
-nav a.active:hover {
-    background-color: #964b00;
-    color: white;
+    transform: translateY(-2px);
 }
 
 /* Filtro Ricerca */
 .search-filter {
     background-color: #c08457;
-    padding: 18px;   
+    padding: 1.5rem;
     text-align: center;
-    font-size: 1.1em;
+    border-bottom: 1px solid #c5a990;
 }
-.search-filter label, 
-.search-filter span {
+.search-filter form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+.search-filter label {
     font-weight: bold;
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: #3b2a1a;
 }
+input[type="date"] {
+    font-size: 1em;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    border: 2px solid #7c3f06;
+    transition: all 0.3s;
+    background-color: #fffaf5;
+}
+button {
+    font-size: 1em;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    border: none;
+    transition: all 0.3s;
+    background-color: #773d03;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+button:hover {
+    background-color: #7c3f06;
+    transform: scale(1.05);
+}
 
-/* Contenuto */
+/* Main Content */
 main {
     flex: 1;
-    background-color: #d3a27f;
-    padding: 30px;
+    padding: 2rem 0;
     text-align: center;
-    font-size: 1.2em;
+    background-color: #d3a27f;
+}
+main h3 {
+    font-size: 1.5em;
+    margin-bottom: 1rem;
+    padding: 0 2rem;
+}
+
+/* Legenda */
+.legenda {
+    margin: 0 auto 1.5rem auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    font-weight: 500;
+    padding: 0 2rem;
+}
+.legenda span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.legenda .box {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.2);
+}
+.legenda .box.disponibile { background-color: #28a745; }
+.legenda .box.vip { background-color: #ffc107; }
+.legenda .box.occupato { background-color: rgba(255, 255, 255, 0.6); }
+
+/* --- MAPPA SPIAGGIA --- */
+.spiaggia-mappa-container {
+    position: relative;
+    width: 100%;
+    height: 80vh; /* Altezza consistente */
+    margin: 0 auto;
+    /* NUOVO URL IMMAGINE DI SFONDO */
+    background-image: url('https://image.pollinations.ai/prompt/aerial%20view%20of%20a%20beautiful%20sandy%20beach%20with%20clear%20blue%20ocean%20and%20some%20beach%20umbrellas%20and%20sun%20loungers%20arranged%20in%20neat%20rows,%20sunny%20day,%20high%20resolution,%20photorealistic?width=1920&height=1080&seed=1'); 
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.ombrelloni-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.settore-label {
+    position: absolute;
+    top: 5%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.3);
+    padding: 0.25rem 1rem;
+    border-radius: 10px;
+}
+
+.ombrellone-wrapper {
+    position: absolute;
+    width: 3%;
+    height: 5%;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ombrellone-wrapper:hover {
+    transform: scale(1.5) !important;
+    z-index: 10;
+}
+
+.ombrellone-icon {
+    width: 70%;
+    padding-bottom: 70%;
+    border-radius: 50%;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.5);
+}
+
+.ombrellone-numero {
+    position: absolute;
+    font-size: 10px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+
+/* Colori e stati degli ombrelloni */
+.ombrellone-wrapper.disponibile .ombrellone-icon {
+    background-color: #28a745;
+}
+.ombrellone-wrapper.disponibile.vip .ombrellone-icon {
+    background-color: #ffc107;
+}
+.ombrellone-wrapper.disponibile.vip .ombrellone-numero {
+    color: #333;
+}
+.ombrellone-wrapper.occupato {
+    cursor: not-allowed;
+}
+.ombrellone-wrapper.occupato .ombrellone-icon {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.ombrellone-wrapper.occupato .ombrellone-numero {
+    color: #555;
+    text-shadow: none;
 }
 
 /* Footer */
@@ -95,303 +226,78 @@ footer {
     font-size: 0.9em;
 }
 
-/* Input e bottoni */
-input, button {
-    font-size: 16px;
-    background-color: #773d03;
-    color: white;
-    font-weight: bold;
-    border: none;
-    padding: 8px 24px;
-    cursor: pointer;
-    border-radius: 50px;
-    transition: background 0.3s, transform 0.2s;
-}
-input:hover, button:hover {
-    background-color: #7c3f06;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
-    transform: scale(1.05);
-}
-input:active, button:active {
-    transform: scale(0.9);
-}
-
-/* --- STILI MAPPA CINEMA --- */
-.mappa-spiaggia {
-    width: 100%;
-    overflow-x: auto;
-    padding: 20px 0;
-    background-color: transparent;
-    border: none;
-    margin-top: 20px;
-}
-.settore-grid {
-    margin-bottom: 30px;
-    text-align: center;
-}
-.settore-grid h4 {
-    background-color: #7c3f06;
-    color: white;
-    padding: 8px;
-    border-radius: 5px;
-    display: inline-block;
-    margin-bottom: 15px;
-}
-.fila {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 5px;
-}
-.numero-fila {
-    font-weight: bold;
-    margin-right: 15px;
-    width: 50px;
-    text-align: right;
-    font-size: 0.9em;
-    color: #555;
-}
-.ombrellone, .spazio-vuoto {
-    width: 35px;
-    height: 35px;
-    margin: 3px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 0.8em;
-    transition: transform 0.2s;
-}
-.ombrellone:hover {
-    transform: scale(1.1);
-}
-.spazio-vuoto {
-    background-color: transparent;
-    border: 1px dashed transparent;
-}
-.ombrellone.disponibile {
-    background-color: #28a745;
-    color: white;
-    border: 1px solid #1e7e34;
-    cursor: pointer;
-}
-.ombrellone.disponibile.vip {
-    background-color: #ffc107;
-    color: #000;
-    border: 1px solid #d39e00;
-}
-.ombrellone.occupato {
-    background-color: #dc3545;
-    color: white;
-    border: 1px solid #b21f2d;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
-/* Legenda */
-.legenda {
-    margin: 20px 0 30px 0;
-    text-align: center;
-    font-size: 1.1em;
-    font-weight: bold;
-}
-.legenda .box {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
-    margin-left: 25px;
-    border: 1px solid #555;
-    vertical-align: middle;
-    border-radius: 3px;
-}
-.legenda .box.disponibile { background-color: #28a745; }
-.legenda .box.vip { background-color: #ffc107; }
-.legenda .box.occupato { background-color: #dc3545; }
-
-/* --- VISTA SPIAGGIA INTERATTIVA --- */
-.hidden { display: none !important; }
-#vista-spiaggia {
-    padding: 20px;
-    border: 3px solid #ac6730;
-    border-radius: 10px;
-    background-color: #f2dfd3;
-}
-/* Mare */
-.mare {
-    height: 150px;
-    background: linear-gradient(to bottom, #1e90ff, #3ba9ff, #6dd5fa);
-    border-radius: 12px;
-    margin-bottom: 25px;
-    box-shadow: inset 0 8px 20px rgba(255,255,255,0.4),
-                inset 0 -8px 20px rgba(0,0,0,0.3),
-                0 6px 15px rgba(0,0,0,0.2);
-}
-/* Spiaggia */
-.spiaggia {
-    min-height: 220px;
-    background: linear-gradient(to top, #f9e4b7, #f5d7a3, #f2c98d);
-    border-radius: 12px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 35px;
-    padding: 40px;
-    box-shadow: inset 0 5px 12px rgba(255,255,255,0.4),
-                inset 0 -5px 12px rgba(0,0,0,0.2),
-                0 6px 15px rgba(0,0,0,0.2);
-}
-/* Settori */
-.bottone-settore {
-    background: linear-gradient(145deg, #3b2a1a, #5a4633);
-    color: #f8f3e9;
-    font-weight: bold;
-    font-size: 1.2em;
-    padding: 28px 30px;
-    border: 2px solid #2b1e14;
-    border-radius: 14px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    flex: 1 1 180px;
-    max-width: 220px;
-    text-align: center;
-}
-.bottone-settore:hover {
-    background: linear-gradient(145deg, #5a4633, #3b2a1a);
-    transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 12px 20px rgba(0,0,0,0.25);
-}
-.torna-alla-mappa {
-    display: block;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #7c3f06;
-    text-decoration: none;
-    font-size: 1em;
-}
-.torna-alla-mappa:hover { text-decoration: underline; }
-
-/* Animazioni */
-.sector-grid-container { animation: fadeIn 0.5s; }
-@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-
-/* --- MESSAGGI --- */
+/* --- PAGINA PRENOTAZIONE e MESSAGGI --- */
 .messaggio {
-    padding: 15px 20px;
+    padding: 1rem 1.5rem;
     border-radius: 8px;
-    max-width: 800px;
-    margin: 20px auto;
-    font-size: 1em;
-    font-weight: bold;
+    max_width: 800px;
+    margin: 1.5rem auto;
+    font-size: 1.1em;
+    font-weight: 500;
 }
 .messaggio.errore {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
-
-/* --- IMMAGINI PRENOTAZIONE --- */
-.prenotazione-immagine {
-    text-align: center;
-    margin: 20px 0;
+.messaggio.successo {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
 }
-.prenotazione-immagine img {
-    max-width: 80%;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-    transition: transform 0.3s, opacity 0.3s;
-}
-.prenotazione-immagine img.fade-in {
-    opacity: 0;
-    animation: fadeIn 0.5s forwards;
-}
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-/* --- PAGINA PRENOTAZIONE --- */
 .riepilogo-box {
     background-color: #e6cbb4;
-    padding: 20px;
+    padding: 1.5rem;
     border-radius: 10px;
-    margin: 20px auto;
-    max-width: 700px;
+    margin: 1.5rem auto;
+    max_width: 600px;
     text-align: left;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: 1px solid #d3bca8;
 }
+.riepilogo-box p { margin: 0.5rem 0; }
+
 .form-prenotazione {
     background-color: #f2dfd3;
     border: 2px solid #ac6730;
-    padding: 25px;
+    padding: 2rem;
     border-radius: 12px;
-    max-width: 700px;
-    margin: 25px auto;
+    max_width: 600px;
+    margin: 2rem auto;
     text-align: left;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 .form-prenotazione h3 {
     margin-top: 0;
     color: #3b2a1a;
-    font-size: 1.4em;
-    margin-bottom: 15px;
+    font-size: 1.5em;
+    margin-bottom: 1rem;
     border-bottom: 2px solid #ac6730;
-    padding-bottom: 8px;
+    padding-bottom: 0.5rem;
 }
-.form-group { margin-bottom: 20px; }
+.form-group { margin-bottom: 1.5rem; }
 .form-group label {
     display: block;
-    font-weight: bold;
+    font-weight: 600;
     color: #3b2a1a;
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
 }
 input[type="text"], select {
     width: 100%;
-    padding: 10px;
+    padding: 0.75rem;
     border: 1px solid #7c3f06;
-    border-radius: 6px;
+    border-radius: 8px;
     background-color: #fffaf5;
     font-size: 1em;
     box-sizing: border-box;
 }
-.form-group label input[type="checkbox"] {
-    margin-right: 8px;
-    accent-color: #7c3f06;
-    transform: scale(1.2);
-}
-.form-prenotazione button {
-    background: linear-gradient(90deg, #964b00, #7c3f06);
-    border: none;
-    padding: 12px 25px;
-    border-radius: 50px;
-    font-size: 1.1em;
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s, background 0.3s;
-}
-.form-prenotazione button:hover {
-    background: linear-gradient(90deg, #7c3f06, #964b00);
-    transform: scale(1.05);
-}
 #prezzo_totale {
-    font-size: 1.3em;
+    font-size: 1.2em;
     font-weight: bold;
     color: #3b2a1a;
     background-color: #e6cbb4;
-    padding: 12px;
+    padding: 1rem;
     border-radius: 8px;
     text-align: center;
-    margin-top: 20px;
-}
-#codice_cliente {
-    color: #3b2a1a;
-    font-weight: bold;
-}
-#codice_cliente:hover,
-#codice_cliente:active,
-#codice_cliente:focus {
-    transform: none !important;
+    margin-top: 1.5rem;
 }

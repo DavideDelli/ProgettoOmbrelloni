@@ -8,39 +8,80 @@ error_reporting(E_ALL);
 require_once 'db_connection.php';
 
 // Inizializza le variabili
-$data_selezionata = '';
-$settori = [];
-$ombrelloni_occupati_ids = [];
+$data_selezionata = date('Y-m-d'); // Imposta la data odierna come predefinita
+$ombrelloni_mappa = [];
 $messaggio_errore = '';
+$settori_presenti = [];
 
 // Controlla se il form di ricerca è stato inviato
 if (isset($_GET['data_ricerca']) && !empty($_GET['data_ricerca'])) {
-    
     $data_selezionata = $_GET['data_ricerca'];
+}
+
+// Controlla se la data selezionata esiste nel database
+$sql_check_data = "SELECT 1 FROM giornodisponibilita WHERE data = :data_selezionata LIMIT 1";
+$stmt_check_data = $pdo->prepare($sql_check_data);
+$stmt_check_data->execute(['data_selezionata' => $data_selezionata]);
+
+if ($stmt_check_data->rowCount() > 0) {
+    // La data è valida, procediamo a recuperare tutti gli ombrelloni e il loro stato
+    $sql_ombrelloni = "
+        SELECT 
+            o.id, o.settore, o.numFila, o.numPostoFila, o.codTipologia,
+            CASE WHEN gd.numProgrContratto IS NOT NULL THEN 1 ELSE 0 END AS occupato
+        FROM ombrellone o
+        LEFT JOIN giornodisponibilita gd ON o.id = gd.idOmbrellone AND gd.data = :data_selezionata
+        ORDER BY o.settore, o.numFila, o.numPostoFila
+    ";
     
-    // Controlla se la data selezionata esiste nel database
-    $sql_check_data = "SELECT 1 FROM giornodisponibilita WHERE data = :data_selezionata LIMIT 1";
-    $stmt_check_data = $pdo->prepare($sql_check_data);
-    $stmt_check_data->execute(['data_selezionata' => $data_selezionata]);
-
-    if ($stmt_check_data->rowCount() > 0) {
-        // La data è valida, procediamo a costruire la mappa
-        $sql_tutti = "SELECT id, settore, numFila, numPostoFila, codTipologia FROM ombrellone ORDER BY settore, numFila, numPostoFila";
-        $stmt_tutti = $pdo->query($sql_tutti);
-        $tutti_gli_ombrelloni = $stmt_tutti->fetchAll();
-
-        foreach ($tutti_gli_ombrelloni as $ombrellone) {
-            $settori[$ombrellone['settore']][$ombrellone['numFila']][$ombrellone['numPostoFila']] = $ombrellone;
+    $stmt_ombrelloni = $pdo->prepare($sql_ombrelloni);
+    $stmt_ombrelloni->execute(['data_selezionata' => $data_selezionata]);
+    $ombrelloni_mappa = $stmt_ombrelloni->fetchAll();
+    
+    // Raccoglie i settori unici per le etichette
+    foreach($ombrelloni_mappa as $ombrellone) {
+        if (!in_array($ombrellone['settore'], $settori_presenti)) {
+            $settori_presenti[] = $ombrellone['settore'];
         }
-
-        $sql_occupati = "SELECT idOmbrellone FROM giornodisponibilita WHERE data = :data_selezionata AND numProgrContratto IS NOT NULL";
-        $stmt_occupati = $pdo->prepare($sql_occupati);
-        $stmt_occupati->execute(['data_selezionata' => $data_selezionata]);
-        $ombrelloni_occupati_ids = $stmt_occupati->fetchAll(PDO::FETCH_COLUMN);
-
-    } else {
-        $messaggio_errore = "La data selezionata non è valida o è al di fuori della stagione balneare. Prego, scegli un'altra data.";
     }
+
+} else {
+    $messaggio_errore = "La data selezionata non è valida o è al di fuori della stagione balneare. Prego, scegli un'altra data.";
+}
+
+/**
+ * Funzione per calcolare le coordinate di un ombrellone in layout a colonne.
+ * @param array $ombrellone Dati dell'ombrellone.
+ * @return array Coordinate 'top' e 'left' in percentuale.
+ */
+function calcola_posizione_ombrellone($ombrellone) {
+    $settore = $ombrellone['settore'];
+    $colonna = $ombrellone['numFila']; // numFila ora rappresenta la colonna
+    $posto_in_colonna = $ombrellone['numPostoFila']; // numPostoFila è la posizione verticale
+
+    $config_settori = [
+        // Ogni settore: top iniziale, left iniziale, spaziatura verticale, spaziatura orizzontale
+        'A' => ['base_top' => 15, 'base_left' => 10, 'v_spacing' => 7, 'h_spacing' => 5],
+        'B' => ['base_top' => 15, 'base_left' => 30, 'v_spacing' => 7, 'h_spacing' => 5],
+        'C' => ['base_top' => 15, 'base_left' => 50, 'v_spacing' => 7, 'h_spacing' => 5],
+        'D' => ['base_top' => 15, 'base_left' => 70, 'v_spacing' => 7, 'h_spacing' => 5],
+        'E' => ['base_top' => 15, 'base_left' => 90, 'v_spacing' => 7, 'h_spacing' => 5],
+    ];
+    
+    if (!isset($config_settori[$settore])) {
+        return ['top' => '0%', 'left' => '0%'];
+    }
+
+    $config = $config_settori[$settore];
+    
+    // Calcolo posizione
+    $top = $config['base_top'] + (($posto_in_colonna - 1) * $config['v_spacing']);
+    $left = $config['base_left'] + (($colonna - 1) * $config['h_spacing']);
+
+    return [
+        'top' => $top . '%', 
+        'left' => $left . '%'
+    ];
 }
 ?>
 <!DOCTYPE html>
@@ -48,113 +89,82 @@ if (isset($_GET['data_ricerca']) && !empty($_GET['data_ricerca'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noleggio Ombrelloni - Mappa Disponibilità</title>
+    <title>Prenotazione Ombrelloni - Mappa Spiaggia</title>
     <link rel="stylesheet" href="stile.css">
 </head>
 <body>
 <div class="container">
-    <header>Noleggio Ombrelloni</header>
+    <header>Lido Paradiso</header>
     <nav>
-        <a href="index.php">Home</a>
+        <a href="index.php" class="active">Home</a>
         <a href="#">Servizi</a>
-        <a href="#">Chi Siamo</a>
+        <a href="#">Listino Prezzi</a>
         <a href="#">Contatti</a>
     </nav>
 
     <div class="search-filter">
         <form method="GET" action="index.php">
-            <label for="data_ricerca">Seleziona una data:</label>
+            <label for="data_ricerca">Seleziona la data della tua prenotazione:</label>
             <input type="date" id="data_ricerca" name="data_ricerca" value="<?= htmlspecialchars($data_selezionata) ?>" required />
-            <button type="submit">Cerca Disponibilità</button>
+            <button type="submit">Mostra Disponibilità</button>
         </form>
     </div>
 
     <main>
-        <h2>Mappa Disponibilità</h2>
+        <?php if (!empty($messaggio_errore)): ?>
+            <div class="messaggio errore">
+                <p><?= htmlspecialchars($messaggio_errore) ?></p>
+            </div>
+        <?php elseif (!empty($ombrelloni_mappa)): ?>
+            <h3>Disponibilità per il <strong><?= date("d/m/Y", strtotime($data_selezionata)) ?></strong></h3>
+            <div class="legenda">
+                <span class="box disponibile"></span> Libero
+                <span class="box vip"></span> VIP Libero
+                <span class="box occupato"></span> Occupato
+            </div>
 
-        <?php if ($data_selezionata): ?>
-            <?php if (!empty($messaggio_errore)): ?>
-                <div class="messaggio errore">
-                    <p><?= htmlspecialchars($messaggio_errore) ?></p>
-                </div>
-            <?php else: ?>
-                <h3>Disponibilità per il giorno: <strong><?= htmlspecialchars($data_selezionata) ?></strong></h3>
-                <div class="legenda">
-                    <span class="box disponibile"></span> Disponibile
-                    <span class="box occupato"></span> Occupato
-                    <span class="box vip"></span> VIP
-                </div>
+            <div class="spiaggia-mappa-container">
+                <div class="ombrelloni-container">
+                    
+                    <?php 
+                        $posizioni_settori = ['A' => 15, 'B' => 35, 'C' => 55, 'D' => 75, 'E' => 95];
+                        foreach ($settori_presenti as $settore): 
+                    ?>
+                        <div class="settore-label" style="left: <?= $posizioni_settori[$settore] ?? 0 ?>%;">SETTORE <?= htmlspecialchars($settore) ?></div>
+                    <?php endforeach; ?>
 
-                <div id="vista-spiaggia">
-                    <div class="mare"></div>
-                    <div class="spiaggia">
-                        <?php foreach (array_keys($settori) as $nome_settore): ?>
-                            <button class="bottone-settore" data-settore="<?= htmlspecialchars($nome_settore) ?>">
-                                Settore <?= htmlspecialchars($nome_settore) ?>
-                            </button>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
+                    <?php foreach ($ombrelloni_mappa as $ombrellone): ?>
+                        <?php
+                            $posizione = calcola_posizione_ombrellone($ombrellone);
+                            $is_occupato = $ombrellone['occupato'];
+                            $is_vip = $ombrellone['codTipologia'] === 'VIP';
+                            
+                            $class = 'ombrellone-wrapper' . ($is_occupato ? ' occupato' : ' disponibile') . ($is_vip ? ' vip' : '');
+                            $tooltip = "Ombrellone #{$ombrellone['id']} | Sett. {$ombrellone['settore']} | Col. {$ombrellone['numFila']} | Posto {$ombrellone['numPostoFila']}";
+                            
+                            $style = "top: {$posizione['top']}; left: {$posizione['left']};";
 
-                <div id="vista-griglie">
-                    <?php foreach ($settori as $nome_settore => $file): ?>
-                        <div id="settore-grid-<?= htmlspecialchars($nome_settore) ?>" class="sector-grid-container hidden">
-                            <a href="#" class="torna-alla-mappa">‹ Torna alla scelta dei settori</a>
-                            <div class="settore-grid">
-                                <h4>Settore <?= htmlspecialchars($nome_settore) ?></h4>
-
-                                <?php
-                                $max_fila = empty($file) ? 0 : max(array_keys($file));
-                                $max_posto = 0;
-                                foreach ($file as $posti_in_fila) {
-                                    if (!empty($posti_in_fila)) {
-                                        $current_max_posto = max(array_keys($posti_in_fila));
-                                        if ($current_max_posto > $max_posto) $max_posto = $current_max_posto;
-                                    }
-                                }
-                                ?>
-
-                                <?php for ($f = 1; $f <= $max_fila; $f++): ?>
-                                    <div class="fila">
-                                        <div class="numero-fila">Fila <?= $f ?></div>
-
-                                        <?php for ($p = 1; $p <= $max_posto; $p++): ?>
-                                            <?php
-                                            if (isset($file[$f][$p])) {
-                                                $ombrellone = $file[$f][$p];
-                                                $tipologia = ($p <= 2) ? 'VIP' : $ombrellone['codTipologia'];
-                                                $is_occupato = in_array($ombrellone['id'], $ombrelloni_occupati_ids);
-                                                $class = 'ombrellone' 
-                                                         . ($is_occupato ? ' occupato' : ' disponibile') 
-                                                         . ($tipologia == 'VIP' ? ' vip' : '');
-                                                $tooltip = "Ombrellone #{$ombrellone['id']} | Posto: {$p} | Tipo: {$tipologia}";
-
-                                                if ($is_occupato) {
-                                                    echo "<div class='{$class}' title='{$tooltip} (Non disponibile)'>{$p}</div>";
-                                                } else {
-                                                    $link = "prenota.php?id=" . urlencode($ombrellone['id']) . "&data=" . urlencode($data_selezionata);
-                                                    echo "<a href='{$link}' class='{$class}' title='{$tooltip} (Clicca per prenotare)'>{$p}</a>";
-                                                }
-                                            } else {
-                                                echo "<div class='spazio-vuoto'></div>";
-                                            }
-                                            ?>
-                                        <?php endfor; ?>
-                                    </div>
-                                <?php endfor; ?>
-                            </div>
-                        </div>
+                            if ($is_occupato) {
+                                echo "<div class='{$class}' style='{$style}' title='{$tooltip} (Non disponibile)'>";
+                                echo "<div class='ombrellone-icon'></div>";
+                                echo "<span class='ombrellone-numero'>{$ombrellone['id']}</span>";
+                                echo "</div>";
+                            } else {
+                                $link = "prenota.php?id=" . urlencode($ombrellone['id']) . "&data=" . urlencode($data_selezionata);
+                                echo "<a href='{$link}' class='{$class}' style='{$style}' title='{$tooltip} (Clicca per prenotare)'>";
+                                echo "<div class='ombrellone-icon'></div>";
+                                echo "<span class='ombrellone-numero'>{$ombrellone['id']}</span>";
+                                echo "</a>";
+                            }
+                        ?>
                     <?php endforeach; ?>
                 </div>
-            <?php endif; ?>
+            </div>
         <?php else: ?>
-            <p>Usa il filtro di ricerca per visualizzare la mappa della spiaggia.</p>
+            <p>Seleziona una data per visualizzare la mappa della spiaggia e la disponibilità degli ombrelloni.</p>
         <?php endif; ?>
     </main>
-
     <footer>© 2025 - Università degli Studi di Bergamo - Progetto Programmazione WEB</footer>
 </div>
-
-<script src="script.js"></script>
 </body>
-</html>
+</html>
