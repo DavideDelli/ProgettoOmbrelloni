@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 require_once 'db_connection.php';
 
 // Inizializza le variabili
-$data_selezionata = date('Y-m-d'); // Imposta la data odierna come predefinita
+$data_selezionata = date('2026-09-11'); // Imposta la data odierna come predefinita
 $ombrelloni_mappa = [];
 $messaggio_errore = '';
 $settori_presenti = [];
@@ -56,16 +56,14 @@ if ($stmt_check_data->rowCount() > 0) {
  */
 function calcola_posizione_ombrellone($ombrellone) {
     $settore = $ombrellone['settore'];
-    $colonna = $ombrellone['numFila']; // numFila ora rappresenta la colonna
-    $posto_in_colonna = $ombrellone['numPostoFila']; // numPostoFila è la posizione verticale
+    $colonna = $ombrellone['numFila'];
+    $posto_in_colonna = $ombrellone['numPostoFila'];
 
     $config_settori = [
-        // Ogni settore: top iniziale, left iniziale, spaziatura verticale, spaziatura orizzontale
         'A' => ['base_top' => 15, 'base_left' => 10, 'v_spacing' => 7, 'h_spacing' => 5],
         'B' => ['base_top' => 15, 'base_left' => 30, 'v_spacing' => 7, 'h_spacing' => 5],
         'C' => ['base_top' => 15, 'base_left' => 50, 'v_spacing' => 7, 'h_spacing' => 5],
         'D' => ['base_top' => 15, 'base_left' => 70, 'v_spacing' => 7, 'h_spacing' => 5],
-        'E' => ['base_top' => 15, 'base_left' => 90, 'v_spacing' => 7, 'h_spacing' => 5],
     ];
     
     if (!isset($config_settori[$settore])) {
@@ -74,7 +72,6 @@ function calcola_posizione_ombrellone($ombrellone) {
 
     $config = $config_settori[$settore];
     
-    // Calcolo posizione
     $top = $config['base_top'] + (($posto_in_colonna - 1) * $config['v_spacing']);
     $left = $config['base_left'] + (($colonna - 1) * $config['h_spacing']);
 
@@ -127,36 +124,55 @@ function calcola_posizione_ombrellone($ombrellone) {
                 <div class="ombrelloni-container">
                     
                     <?php 
-                        $posizioni_settori = ['A' => 15, 'B' => 35, 'C' => 55, 'D' => 75, 'E' => 95];
+                        $posizioni_settori = ['A' => 15, 'B' => 35, 'C' => 55, 'D' => 75];
                         foreach ($settori_presenti as $settore): 
                     ?>
                         <div class="settore-label" style="left: <?= $posizioni_settori[$settore] ?? 0 ?>%;">SETTORE <?= htmlspecialchars($settore) ?></div>
                     <?php endforeach; ?>
 
-                    <?php foreach ($ombrelloni_mappa as $ombrellone): ?>
-                        <?php
-                            $posizione = calcola_posizione_ombrellone($ombrellone);
-                            $is_occupato = $ombrellone['occupato'];
-                            $is_vip = $ombrellone['codTipologia'] === 'VIP';
-                            
-                            $class = 'ombrellone-wrapper' . ($is_occupato ? ' occupato' : ' disponibile') . ($is_vip ? ' vip' : '');
-                            $tooltip = "Ombrellone #{$ombrellone['id']} | Sett. {$ombrellone['settore']} | Col. {$ombrellone['numFila']} | Posto {$ombrellone['numPostoFila']}";
-                            
-                            $style = "top: {$posizione['top']}; left: {$posizione['left']};";
+                    <?php 
+                    // --- MODIFICA INIZIO ---
+                    // Inizializzazione delle variabili per il contatore
+                    $settore_corrente = '';
+                    $numero_per_settore = 0;
 
-                            if ($is_occupato) {
-                                echo "<div class='{$class}' style='{$style}' title='{$tooltip} (Non disponibile)'>";
-                                echo "<div class='ombrellone-icon'></div>";
-                                echo "<span class='ombrellone-numero'>{$ombrellone['id']}</span>";
-                                echo "</div>";
-                            } else {
-                                $link = "prenota.php?id=" . urlencode($ombrellone['id']) . "&data=" . urlencode($data_selezionata);
-                                echo "<a href='{$link}' class='{$class}' style='{$style}' title='{$tooltip} (Clicca per prenotare)'>";
-                                echo "<div class='ombrellone-icon'></div>";
-                                echo "<span class='ombrellone-numero'>{$ombrellone['id']}</span>";
-                                echo "</a>";
-                            }
-                        ?>
+                    foreach ($ombrelloni_mappa as $ombrellone): 
+                        // Logica per resettare la numerazione per ogni settore
+                        if ($ombrellone['settore'] !== $settore_corrente) {
+                            $settore_corrente = $ombrellone['settore'];
+                            $numero_per_settore = 1; // Resetta il contatore
+                        } else {
+                            $numero_per_settore++; // Incrementa il contatore
+                        }
+                    
+                        $posizione = calcola_posizione_ombrellone($ombrellone);
+                        $is_occupato = $ombrellone['occupato'];
+                        $is_vip = $ombrellone['codTipologia'] === 'VIP';
+                        
+                        $class = 'ombrellone-wrapper' . ($is_occupato ? ' occupato' : ' disponibile') . ($is_vip ? ' vip' : '');
+                        
+                        // Tooltip aggiornato con il nuovo numero per settore
+                        $tooltip = "Sett. {$ombrellone['settore']}, N. {$numero_per_settore} | Col. {$ombrellone['numFila']} | Posto {$ombrellone['numPostoFila']}";
+                        
+                        $style = "top: {$posizione['top']}; left: {$posizione['left']};";
+
+                        if ($is_occupato) {
+                            echo "<div class='{$class}' style='{$style}' title='{$tooltip} (Non disponibile)'>";
+                            echo "<div class='ombrellone-icon'></div>";
+                            // Mostra il numero progressivo per settore
+                            echo "<span class='ombrellone-numero'>{$numero_per_settore}</span>";
+                            echo "</div>";
+                        } else {
+                            // Il link di prenotazione usa ancora l'ID univoco del database, che è corretto
+                            $link = "prenota.php?id=" . urlencode($ombrellone['id']) . "&data=" . urlencode($data_selezionata);
+                            echo "<a href='{$link}' class='{$class}' style='{$style}' title='{$tooltip} (Clicca per prenotare)'>";
+                            echo "<div class='ombrellone-icon'></div>";
+                            // Mostra il numero progressivo per settore
+                            echo "<span class='ombrellone-numero'>{$numero_per_settore}</span>";
+                            echo "</a>";
+                        }
+                    // --- MODIFICA FINE ---
+                    ?>
                     <?php endforeach; ?>
                 </div>
             </div>

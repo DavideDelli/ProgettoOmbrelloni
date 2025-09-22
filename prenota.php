@@ -71,19 +71,22 @@ if (isset($_GET['id']) && isset($_GET['data']) && !empty($_GET['id']) && !empty(
                 <a href="index.php" class="button-link">Torna alla ricerca</a>
             </div>
         <?php elseif ($ombrellone): ?>
-            <h2>Stai per prenotare:</h2>
-            
-            <!-- Pulsante per tornare alla lista degli ombrelloni -->
-            <div class="form-group">
-                <a href="index.php" class="button-link">← Torna alla lista ombrelloni</a>
+
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="font-size: 2.2em; color: #3b2a1a; text-shadow: 1px 1px 3px rgba(0,0,0,0.1); margin: 0 0 5px 0;">Un ultimo passo...</h2>
+                <p style="font-size: 1.2em; color: #7c3f06; margin-top: 0;">Controlla i dettagli e conferma la tua giornata al mare.</p>
             </div>
-            
+
             <div class="riepilogo-box">
                 <p><strong>Data:</strong> <?= htmlspecialchars($data_selezionata) ?></p>
                 <p><strong>Ombrellone ID:</strong> <?= htmlspecialchars($ombrellone['id']) ?></p>
                 <p><strong>Posizione:</strong> Settore <?= htmlspecialchars($ombrellone['settore']) ?>, Fila <?= htmlspecialchars($ombrellone['numFila']) ?>, Posto <?= htmlspecialchars($ombrellone['numPostoFila']) ?></p>
                 <p><strong>Tipologia:</strong> <?= htmlspecialchars($ombrellone['nome_tipologia']) ?> (<?= htmlspecialchars($ombrellone['descrizione']) ?>)</p>
                 <p id="prezzo_totale"><strong>Prezzo totale stimato:</strong> €<?= $prezzo_base ?></p>
+            </div>
+            
+            <div style="text-align: center; margin-bottom: 25px;">
+                <a href="index.php?data_ricerca=<?= htmlspecialchars($data_selezionata) ?>" class="button" style="text-decoration: none; background-color: #c08457; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">← Cambia la tua selezione</a>
             </div>
 
             <form action="conferma.php" method="POST" class="form-prenotazione">
@@ -124,11 +127,7 @@ if (isset($_GET['id']) && isset($_GET['data']) && !empty($_GET['id']) && !empty(
 
                 function aggiornaPrezzo() {
                     let prezzoExtra = 0;
-
-                    // Ombrelloni extra
                     prezzoExtra += parseInt(selectOmbrelloni.value) * 25;
-
-                    // Servizi extra
                     serviziCheckbox.forEach(cb => {
                         if(cb.checked){
                             switch(cb.value){
@@ -138,7 +137,6 @@ if (isset($_GET['id']) && isset($_GET['data']) && !empty($_GET['id']) && !empty(
                             }
                         }
                     });
-
                     const totale = prezzoBase + prezzoExtra;
                     prezzoTotaleEl.innerHTML = `<strong>Prezzo totale stimato:</strong> €${totale}`;
                 }
@@ -152,4 +150,3 @@ if (isset($_GET['id']) && isset($_GET['data']) && !empty($_GET['id']) && !empty(
 </div>
 </body>
 </html>
-
