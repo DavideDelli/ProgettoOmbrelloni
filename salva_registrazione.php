@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Esito Registrazione</title>
-    <link rel="stylesheet" href="stile.css">
+    <link rel="stylesheet" href="stile.css?v=<?= filemtime('stile.css') ?>">
 </head>
 <body>
 <div class="container">

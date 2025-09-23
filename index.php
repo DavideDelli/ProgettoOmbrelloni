@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Benvenuti al Lido Paradiso</title>
-    <link rel="stylesheet" href="stile.css">
+    <link rel="stylesheet" href="stile.css?v=<?= filemtime('stile.css') ?>">
     </head>
 <body>
 <div class="container">

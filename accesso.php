@@ -11,7 +11,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accesso - Lido Paradiso</title>
-    <link rel="stylesheet" href="stile.css">
+    <link rel="stylesheet" href="stile.css?v=<?= filemtime('stile.css') ?>">
 </head>
 <body>
 <div class="container">
