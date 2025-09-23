@@ -182,6 +182,75 @@ main h3 {
     z-index: 2;
 }
 
+.wooden-path {
+    position: absolute;
+    top: 0;
+    bottom: 100px;
+    width: 40px;
+    background-image: repeating-linear-gradient(to bottom, #a0522d, #a0522d 10px, transparent 10px, transparent 20px);
+    z-index: 8;
+    transform: translateX(-50%);
+}
+
+.avenue-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    z-index: 7;
+}
+
+.sidewalk {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background-color: #D2B48C;
+    background-image: repeating-linear-gradient(45deg, #A0522D 25%, transparent 25%, transparent 75%, #A0522D 75%, #A0522D), repeating-linear-gradient(45deg, #A0522D 25%, transparent 25%, transparent 75%, #A0522D 75%, #A0522D);
+    background-position: 0 0, 20px 20px;
+    background-size: 40px 40px;
+}
+
+.road {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background-color: #333;
+}
+
+
+
+.bar {
+    position: absolute;
+    top: 150px;
+    right: 5%;
+    width: 100px;
+    height: 100px;
+    background-color: #c08457;
+    border: 2px solid #7c3f06;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #3b2a1a;
+    z-index: 9;
+}
+
+.starfish {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23ffA500" d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 7;
+}
+
 
 
 .ombrelloni-container {

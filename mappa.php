@@ -134,6 +134,22 @@ function calcola_posizione_ombrellone($ombrellone) {
                 <div class="mare">
                 </div>
                 <div class="sabbia">
+                    <div class="starfish" style="top: 20%; left: 5%;"></div>
+                    <div class="starfish" style="top: 50%; left: 20%;"></div>
+                    <div class="starfish" style="top: 80%; left: 10%;"></div>
+                    <div class="starfish" style="top: 30%; left: 40%;"></div>
+                    <div class="starfish" style="top: 60%; left: 60%;"></div>
+                    <div class="starfish" style="top: 10%; left: 80%;"></div>
+                    <div class="wooden-path" style="left: 25%;"></div>
+                    <div class="wooden-path" style="left: 45%;"></div>
+                    <div class="wooden-path" style="left: 65%;"></div>
+                    <div class="wooden-path" style="left: 85%;"></div>
+                    <div class="avenue-container">
+                        <div class="road"></div>
+                        <div class="sidewalk">
+                        </div>
+                    </div>
+                    <div class="bar">BAR</div>
                     <div class="settori-container">
                         <?php 
                             $config_settori = [
