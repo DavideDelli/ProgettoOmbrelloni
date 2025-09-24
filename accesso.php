@@ -40,6 +40,9 @@ session_start();
                 <button type="submit">Entra</button>
             </div>
         </form>
+        <div style="text-align: center; margin-top: -10px; margin-bottom: 20px;">
+         <a href="recupero_codice.php" style="font-size: 0.9em; color: #7c3f06;">Hai dimenticato il codice?</a>
+        </div>
     </main>
     <footer>© 2025 - Università degli Studi di Bergamo - Progetto Programmazione WEB</footer>
 </div>

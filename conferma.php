@@ -17,68 +17,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_ombrellone = $_POST['id_ombrellone'];
     $data_inizio = $_POST['data_prenotazione'];
     $tipo_prenotazione = $_POST['tipo_prenotazione'];
+    $codice_tariffa = $_POST['cod_tariffa'];
     $codice_cliente = $_SESSION['codice_cliente'];
 
     try {
-        // --- RICALCOLO SICURO DEL PREZZO SUL SERVER ---
-        // 1. Recupera il tipo di ombrellone (e quindi il suo costo) direttamente dal database
-        $stmt_tipo = $pdo->prepare("SELECT codTipologia FROM ombrellone WHERE id = :id");
-        $stmt_tipo->execute(['id' => $id_ombrellone]);
-        $ombrellone_db = $stmt_tipo->fetch();
+        // --- CALCOLO SICURO DEL PREZZO ---
+        $sql_prezzo = "
+            SELECT tar.prezzo
+            FROM tariffa tar
+            JOIN tipologiatariffa tt ON tar.codice = tt.codTariffa
+            JOIN ombrellone o ON tt.codTipologia = o.codTipologia
+            WHERE o.id = :id_ombrellone AND tar.codice = :cod_tariffa
+        ";
+        $stmt_prezzo = $pdo->prepare($sql_prezzo);
+        $stmt_prezzo->execute(['id_ombrellone' => $id_ombrellone, 'cod_tariffa' => $codice_tariffa]);
+        $risultato_prezzo = $stmt_prezzo->fetch();
 
-        if (!$ombrellone_db) {
-            throw new Exception("Ombrellone non trovato.");
+        if (!$risultato_prezzo) {
+            throw new Exception("La tariffa selezionata non è valida per questo ombrellone.");
         }
+        $importo_finale = (float) $risultato_prezzo['prezzo'];
 
-        // 2. Determina il prezzo giornaliero
-        $prezzo_giornaliero_base = ($ombrellone_db['codTipologia'] === 'VIP') ? 50 : 30;
-        
-        $importo_finale = 0;
-
-        // 3. Calcola il prezzo totale in base al tipo di prenotazione e alle opzioni scelte
-        if ($tipo_prenotazione === 'settimanale') {
-            // CALCOLO PER ABBONAMENTO: (prezzo giornaliero * 7) + extra
-            $importo_finale = $prezzo_giornaliero_base * 7;
-            if (isset($_POST['abbonamento_extra'])) {
-                switch ($_POST['abbonamento_extra']) {
-                    case 'premium':
-                        $importo_finale += 20; // Aggiunge il costo del pacchetto Premium
-                        break;
-                    case 'vip':
-                        $importo_finale += 40; // Aggiunge il costo del pacchetto VIP
-                        break;
-                }
-            }
-        } else { // CALCOLO PER GIORNALIERO
-            $importo_finale = $prezzo_giornaliero_base;
-            if (isset($_POST['ombrelloni_extra'])) {
-                $importo_finale += intval($_POST['ombrelloni_extra']) * 25;
-            }
-            if (!empty($_POST['servizi_extra']) && is_array($_POST['servizi_extra'])) {
-                foreach ($_POST['servizi_extra'] as $servizio) {
-                    switch ($servizio) {
-                        case 'aperitivo': $importo_finale += 10; break;
-                        case 'pedalo': $importo_finale += 20; break;
-                        case 'asciugamani': $importo_finale += 5; break;
-                    }
-                }
-            }
-        }
-
-        // --- LOGICA DI PRENOTAZIONE CON TRANSAZIONE ---
+        // --- INIZIO TRANSAZIONE E CONTROLLO DISPONIBILITÀ ---
         $pdo->beginTransaction();
+
+        if ($tipo_prenotazione === 'settimanale') {
+            $data_fine_calcolata = date('Y-m-d', strtotime($data_inizio . ' +6 days'));
+
+            $sql_check = "
+                SELECT COUNT(*) 
+                FROM giornodisponibilita 
+                WHERE idOmbrellone = :id_ombrellone 
+                  AND data BETWEEN :data_inizio AND :data_fine
+                  AND numProgrContratto IS NOT NULL
+            ";
+            $stmt_check = $pdo->prepare($sql_check);
+            $stmt_check->execute([
+                'id_ombrellone' => $id_ombrellone,
+                'data_inizio' => $data_inizio,
+                'data_fine' => $data_fine_calcolata
+            ]);
+            $giorni_occupati = $stmt_check->fetchColumn();
+
+            if ($giorni_occupati > 0) {
+                throw new Exception("Impossibile completare la prenotazione. L'ombrellone non è disponibile per l'intero periodo selezionato.");
+            }
+        }
         
-        // Inserisce il contratto con l'importo finale calcolato qui sul server
-        $sql_contratto = "INSERT INTO contratto (data, importo, codiceCliente) VALUES (CURDATE(), :importo, :codice)";
+        // --- INSERIMENTO CONTRATTO CON LA DATA CORRETTA ---
+        $data_fine_contratto = ($tipo_prenotazione === 'settimanale') ? date('Y-m-d', strtotime($data_inizio . ' +6 days')) : NULL;
+        
+        // MODIFICATO: Sostituito CURDATE() con :data_inizio per salvare la data della prenotazione
+        $sql_contratto = "INSERT INTO contratto (data, dataFine, importo, codiceCliente) VALUES (:data_inizio, :data_fine, :importo, :codice)";
         $stmt_contratto = $pdo->prepare($sql_contratto);
-        $stmt_contratto->execute(['importo' => $importo_finale, 'codice' => $codice_cliente]);
+        $stmt_contratto->execute([
+            'data_inizio' => $data_inizio, // MODIFICATO: Aggiunto il parametro corretto
+            'data_fine' => $data_fine_contratto,
+            'importo' => $importo_finale, 
+            'codice' => $codice_cliente
+        ]);
         $nuovo_contratto_id = $pdo->lastInsertId();
 
+        // Aggiorna le righe in giornodisponibilita
         $giorni_da_prenotare = ($tipo_prenotazione === 'settimanale') ? 7 : 1;
 
         for ($i = 0; $i < $giorni_da_prenotare; $i++) {
             $data_corrente = date('Y-m-d', strtotime($data_inizio . " +$i days"));
-
             $sql_aggiorna = "UPDATE giornodisponibilita SET numProgrContratto = :id_contratto WHERE idOmbrellone = :id_ombrellone AND data = :data AND numProgrContratto IS NULL";
             $stmt_aggiorna = $pdo->prepare($sql_aggiorna);
             $stmt_aggiorna->execute([
@@ -86,9 +90,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'id_ombrellone' => $id_ombrellone,
                 'data' => $data_corrente
             ]);
-
+            
             if ($stmt_aggiorna->rowCount() === 0) {
-                throw new Exception("L'ombrellone non è più disponibile per il giorno " . date("d/m/Y", strtotime($data_corrente)) . ". La prenotazione è stata annullata.");
+                throw new Exception("Errore di concorrenza. Qualcuno ha prenotato l'ombrellone per il giorno " . date("d/m/Y", strtotime($data_corrente)) . " mentre completavi l'operazione. La prenotazione è stata annullata.");
             }
         }
 
