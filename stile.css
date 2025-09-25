@@ -48,6 +48,63 @@ nav a:hover, nav a.active {
     transform: translateY(-2px);
 }
 
+/* Classe per dare a un link <a> l'aspetto di un bottone */
+.button-link {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+    cursor: pointer;
+    font-size: 1em;
+    border: none;
+}
+.button-link:hover {
+    transform: scale(1.05);
+}
+
+/* Messaggi di notifica e conferma */
+.messaggio {
+    padding: 20px;
+    border-radius: 10px;
+    margin: 2rem auto;
+    max-width: 700px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.messaggio h2 {
+    margin-top: 0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.messaggio.errore {
+    background-color: #fbeee4;
+    border: 2px solid #dc3545;
+    color: #3b2a1a;
+}
+.messaggio.errore h2 {
+    color: #c82333;
+    border-bottom: 1px solid #e0b3a1;
+}
+.messaggio-conferma {
+    background-color: #fbeee4;
+    border: 2px solid #c08457;
+    color: #3b2a1a;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 700px;
+    margin: 2rem auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.messaggio-conferma h2 {
+    margin-top: 0;
+    color: #7c3f06;
+    border-bottom: 1px solid #d3a27f;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
 /* Filtro Ricerca */
 .search-filter {
     background-color: #c08457;

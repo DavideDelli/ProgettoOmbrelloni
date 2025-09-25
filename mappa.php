@@ -95,6 +95,7 @@ function calcola_posizione_ombrellone($ombrellone) {
     <nav>
         <a href="index.php">Home</a>
         <a href="mappa.php" class="active">Mappa Spiaggia</a>
+        <a href="le_mie_prenotazioni.php">Le mie Prenotazioni</a>
         <a href="logout.php">Logout (<?= htmlspecialchars($_SESSION['nome_cliente']) ?>)</a>
     </nav>
 

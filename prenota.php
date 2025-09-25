@@ -85,6 +85,7 @@ if (isset($_GET['id'], $_GET['data'], $_GET['tipo'])) {
     <nav>
         <a href="index.php">Home</a>
         <a href="mappa.php">Mappa Spiaggia</a>
+        <a href="le_mie_prenotazioni.php">Le mie Prenotazioni</a>
         <a href="logout.php">Logout (<?= htmlspecialchars($nome_cliente) ?>)</a>
     </nav>
     <main>
@@ -116,7 +117,7 @@ if (isset($_GET['id'], $_GET['data'], $_GET['tipo'])) {
             </div>
 
             <div style="text-align: center; margin-bottom: 25px;">
-            <a href="mappa.php?data_ricerca=<?= htmlspecialchars($data_selezionata) ?>&amp;tipo_prenotazione=<?= htmlspecialchars($tipo_prenotazione) ?>" class="button" style="text-decoration: none; background-color: #c08457;">← Cambia Selezione</a>
+            <a href="mappa.php?data_ricerca=<?= htmlspecialchars($data_selezionata) ?>&amp;tipo_prenotazione=<?= htmlspecialchars($tipo_prenotazione) ?>" class="button" style="text-decoration: none; background-color: #6c757d;">← Cambia Selezione</a>
             </div>
 
             <form action="conferma.php" method="POST" class="form-prenotazione">

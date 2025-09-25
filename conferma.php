@@ -68,13 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $data_fine_contratto = ($tipo_prenotazione === 'settimanale') ? date('Y-m-d', strtotime($data_inizio . ' +6 days')) : NULL;
         
         // MODIFICATO: Sostituito CURDATE() con :data_inizio per salvare la data della prenotazione
-        $sql_contratto = "INSERT INTO contratto (data, dataFine, importo, codiceCliente) VALUES (:data_inizio, :data_fine, :importo, :codice)";
+        $sql_contratto = "INSERT INTO contratto (data, dataFine, importo, codiceCliente, codTariffa) VALUES (:data_inizio, :data_fine, :importo, :codice, :cod_tariffa)";
         $stmt_contratto = $pdo->prepare($sql_contratto);
         $stmt_contratto->execute([
             'data_inizio' => $data_inizio, // MODIFICATO: Aggiunto il parametro corretto
             'data_fine' => $data_fine_contratto,
             'importo' => $importo_finale, 
-            'codice' => $codice_cliente
+            'codice' => $codice_cliente,
+            'cod_tariffa' => $codice_tariffa
         ]);
         $nuovo_contratto_id = $pdo->lastInsertId();
 

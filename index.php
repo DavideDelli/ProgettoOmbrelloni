@@ -13,6 +13,7 @@
         <a href="index.php" class="active">Home</a>
         <?php if (isset($_SESSION['codice_cliente'])): ?>
             <a href="mappa.php">Mappa Spiaggia</a>
+            <a href="le_mie_prenotazioni.php">Le mie Prenotazioni</a>
             <a href="logout.php">Logout (<?= htmlspecialchars($_SESSION['nome_cliente']) ?>)</a>
         <?php else: ?>
             <a href="accesso.php">Accedi</a>
