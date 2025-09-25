@@ -102,14 +102,13 @@ function calcola_posizione_ombrellone($ombrellone) {
     <div class="search-filter">
         <form method="GET" action="mappa.php">
             <label for="data_ricerca">Seleziona la data di inizio:</label>
-            <input type="date" id="data_ricerca" name="data_ricerca" value="<?= htmlspecialchars($data_selezionata) ?>" required />
-
-            <div style="display: flex; gap: 15px; align-items: center;">
-                <label><input type="radio" name="tipo_prenotazione" value="giornaliero" <?= $tipo_prenotazione === 'giornaliero' ? 'checked' : '' ?>> Giornaliero</label>
-                <label><input type="radio" name="tipo_prenotazione" value="settimanale" <?= $tipo_prenotazione === 'settimanale' ? 'checked' : '' ?>> Abbonamento 7 Giorni</label>
-            </div>
-
-            <button type="submit">Mostra Disponibilità</button>
+            <input type="date" id="data_ricerca" name="data_ricerca" value="<?= htmlspecialchars($data_selezionata) ?>" required /><div style="display: flex; gap: 15px; align-items: center;">
+            <label><input type="radio" name="tipo_prenotazione" value="giornaliero" onchange="this.form.submit()" <?= $tipo_prenotazione === 'giornaliero' ? 'checked' : '' ?>> Giornaliero</label>
+            <label><input type="radio" name="tipo_prenotazione" value="settimanale" onchange="this.form.submit()" <?= $tipo_prenotazione === 'settimanale' ? 'checked' : '' ?>> Abbonamento 7 Giorni</label>
+        </div>
+            <noscript>
+                <button type="submit">Mostra Disponibilità</button>
+            </noscript>
         </form>
     </div>
 
@@ -205,5 +204,25 @@ function calcola_posizione_ombrellone($ombrellone) {
     </main>
     <footer>© 2025 - Università degli Studi di Bergamo - Progetto Programmazione WEB</footer>
 </div>
+    <script>
+    (function() {
+        const dateInput = document.getElementById('data_ricerca');
+        if (!dateInput) return;
+
+        let debounceTimeout;
+
+        // This event fires whenever the user types in the input or selects a date from the picker.
+        dateInput.addEventListener('input', function() {
+            clearTimeout(debounceTimeout);
+            debounceTimeout = setTimeout(() => {
+                // The .value of a date input is an empty string if the typed text is not a valid date.
+                // We submit only when we have a valid date to avoid errors.
+                if (this.value) {
+                    this.form.submit();
+                }
+            }, 500); // Wait 500ms after the user stops typing/selecting before submitting.
+        });
+    })();
+    </script>
 </body>
 </html>
