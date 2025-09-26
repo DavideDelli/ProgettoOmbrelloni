@@ -2,18 +2,17 @@
 session_start();
 
 if (!isset($_SESSION['codice_cliente'])) {
-    header('Location: accesso.php');
+    header('Location: src/auth/accesso.php');
     exit();
 }
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require_once 'db_connection.php';
+require_once 'src/db_connection.php';
 
 $tipo_prenotazione = $_GET['tipo_prenotazione'] ?? 'giornaliero'; 
-// ## LA CORREZIONE È QUI ##
-// Imposta una data di default che esista nel tuo database
+
 $data_selezionata = $_GET['data_ricerca'] ?? '2026-06-01';
 
 $ombrelloni_mappa = [];
@@ -65,7 +64,7 @@ if ($stmt_check_data->rowCount() > 0) {
     $messaggio_errore = "La data selezionata non è disponibile. Scegli un'altra data.";
 }
 
-function calcola_posizione_ombrellone($ombrellone) {
+function calcola_posizione_ombrellone(array $ombrellone): array {
     $settore = $ombrellone['settore'];
     $colonna = $ombrellone['numFila'];
     $posto_in_colonna = $ombrellone['numPostoFila'];
@@ -86,17 +85,17 @@ function calcola_posizione_ombrellone($ombrellone) {
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <title>Mappa Spiaggia - Lido Paradiso</title>
-    <link rel="stylesheet" href="stile.css?v=<?= filemtime('stile.css') ?>">
+    <title>Mappa Spiaggia - Lido Codici Sballati</title>
+    <link rel="stylesheet" href="assets/css/stile.css?v=<?= filemtime('assets/css/stile.css') ?>">
 </head>
 <body>
 <div class="container">
-    <header>Lido Paradiso</header>
+    <header>Lido Codici Sballati</header>
     <nav>
         <a href="index.php">Home</a>
         <a href="mappa.php" class="active">Mappa Spiaggia</a>
         <a href="le_mie_prenotazioni.php">Le mie Prenotazioni</a>
-        <a href="logout.php">Logout (<?= htmlspecialchars($_SESSION['nome_cliente']) ?>)</a>
+        <a href="profilo.php">Il mio profilo (<?= htmlspecialchars($_SESSION['nome_cliente']) ?>)</a>
     </nav>
 
     <div class="search-filter">
@@ -182,16 +181,16 @@ function calcola_posizione_ombrellone($ombrellone) {
                             $is_occupato = $ombrellone['occupato'];
                             $is_vip = $ombrellone['codTipologia'] === 'VIP';
                             $class = 'ombrellone-wrapper' . ($is_occupato ? ' occupato' : ' disponibile') . ($is_vip ? ' vip' : '');
-                            $tooltip = "Sett. {$ombrellone['settore']}, N. {$numero_per_settore} | Fila {$ombrellone['numFila']}, Posto {$ombrellone['numPostoFila']}";
+                            $tooltip = "Sett. {$ombrellone['settore']}, N. $numero_per_settore | Fila {$ombrellone['numFila']}, Posto {$ombrellone['numPostoFila']}";
                             $style = "top: {$posizione['top']}; left: {$posizione['left']};";
 
                             if ($is_occupato) {
-                                echo "<div class='{$class}' style='{$style}' title='{$tooltip} (Non disponibile)'>";
-                                echo "<div class='ombrellone-icon'></div><span class='ombrellone-numero'>{$numero_per_settore}</span></div>";
+                                echo "<div class='$class' style='$style' title='$tooltip (Non disponibile)'>";
+                                echo "<div class='ombrellone-icon'></div><span class='ombrellone-numero'>$numero_per_settore</span></div>";
                             } else {
-                                $link = "prenota.php?id=" . urlencode($ombrellone['id']) . "&data=" . urlencode($data_selezionata) . "&tipo=" . urlencode($tipo_prenotazione);
-                                echo "<a href='{$link}' class='{$class}' style='{$style}' title='{$tooltip} (Clicca per prenotare)'>";
-                                echo "<div class='ombrellone-icon'></div><span class='ombrellone-numero'>{$numero_per_settore}</span></a>";
+                                $link = "src/booking/prenota.php?id=" . urlencode($ombrellone['id']) . "&data=" . urlencode($data_selezionata) . "&tipo=" . urlencode($tipo_prenotazione);
+                                echo "<a href='$link' class='$class' style='$style' title='$tooltip (Clicca per prenotare)'>";
+                                echo "<div class='ombrellone-icon'></div><span class='ombrellone-numero'>$numero_per_settore</span></a>";
                             }
                         endforeach; 
                         ?>
@@ -211,18 +210,16 @@ function calcola_posizione_ombrellone($ombrellone) {
 
         let debounceTimeout;
 
-        // This event fires whenever the user types in the input or selects a date from the picker.
         dateInput.addEventListener('input', function() {
             clearTimeout(debounceTimeout);
             debounceTimeout = setTimeout(() => {
-                // The .value of a date input is an empty string if the typed text is not a valid date.
-                // We submit only when we have a valid date to avoid errors.
+
                 if (this.value) {
                     this.form.submit();
                 }
-            }, 500); // Wait 500ms after the user stops typing/selecting before submitting.
+            }, 500);
         });
     })();
     </script>
 </body>
-</html>
+</html>

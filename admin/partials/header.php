@@ -7,11 +7,10 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit();
 }
 
-require_once __DIR__ . '/../../db_connection.php';
+require_once __DIR__ . '/../../../src/db_connection.php';
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// Funzione helper per "tradurre" i codici delle tariffe
 function getNomeTariffa($codice) {
     $nomi = [
         'STD_D' => 'Giornaliero Standard', 'STD_W' => 'Settimanale Standard',
@@ -29,8 +28,8 @@ function getNomeTariffa($codice) {
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($page_title ?? 'Admin') ?> - Lido Paradiso</title>
-    <link rel="stylesheet" href="../stile.css?v=<?= filemtime('../stile.css') ?>">
+    <title><?= htmlspecialchars($page_title ?? 'Admin') ?> - Lido Codici Sballati</title>
+    <link rel="stylesheet" href="../assets/css/stile.css?v=<?= filemtime('../assets/css/stile.css') ?>">
     <style>
         /* Stili specifici per l'admin */
         .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
@@ -50,7 +49,7 @@ function getNomeTariffa($codice) {
         <a href="gestione_tariffe.php">Gestione Tariffe</a>
         <a href="gestione_date.php">Gestione Date</a>
         <a href="../index.php" target="_blank">Vedi Sito</a>
-        <a href="logout.php">Logout</a>
+        <a href="profilo.php">Il mio profilo</a>
     </nav>
     <main>
         <div class="admin-container">

@@ -1,7 +1,8 @@
 # File: .gitignore
 
-# Ignora il file di connessione locale che contiene le password
+# Ignora i file di connessione locali che contengono le password
 db_connection.php
+src/db_connection.php
 
 # Ignora i file di database SQLite e i file di progetto di DB Browser
 *.db

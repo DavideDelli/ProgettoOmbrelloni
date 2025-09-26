@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="../stile.css?v=<?= filemtime('../stile.css') ?>">
+    <link rel="stylesheet" href="../assets/css/stile.css?v=<?= filemtime('../assets/css/stile.css') ?>">
 </head>
 <body>
 <div class="container">
@@ -28,4 +28,3 @@
 </div>
 </body>
 </html>
-

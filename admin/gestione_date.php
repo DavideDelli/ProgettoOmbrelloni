@@ -35,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $data_formattata = $data->format('Y-m-d');
                 foreach ($ombrelloni as $id_ombrellone) {
                     $stmt->execute(['data' => $data_formattata, 'id_ombrellone' => $id_ombrellone]);
-                    // rowCount() con INSERT IGNORE può essere 1 (inserito) o 0 (ignorato).
                     if ($stmt->rowCount() > 0) {
                         $giorni_aggiunti++;
                     }

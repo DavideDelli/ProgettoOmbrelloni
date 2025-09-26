@@ -476,6 +476,7 @@ input[type="text"], select {
     color: #3b2a1a;
     font-weight: bold;
 }
+
 #codice_cliente:hover,
 #codice_cliente:active,
 #codice_cliente:focus {

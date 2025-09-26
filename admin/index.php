@@ -4,7 +4,7 @@ require_once 'partials/header.php';
 ?>
 
 <h1>Benvenuto nel Pannello di Amministrazione</h1>
-<p>Da qui puoi gestire gli aspetti chiave del sito Lido Paradiso.</p>
+<p>Da qui puoi gestire gli aspetti chiave del sito Lido Codici Sballati.</p>
 
 <div class="riepilogo-box" style="text-align: left;">
     <h3>Azioni Rapide</h3>

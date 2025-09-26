@@ -2,14 +2,14 @@
 session_start();
 
 if (!isset($_SESSION['codice_cliente'])) {
-    header('Location: accesso.php');
+    header('Location: src/auth/accesso.php');
     exit();
 }
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-require_once 'db_connection.php';
+require_once 'src/db_connection.php';
 
 $codice_cliente = $_SESSION['codice_cliente'];
 $prenotazioni = [];
@@ -26,14 +26,11 @@ $allowed_sorts = [
     'prezzo_asc'  => 'ORDER BY c.importo ASC',
 ];
 
-// Se l'opzione non è valida, usa il default
 $orderByClause = $allowed_sorts[$ordinamento_selezionato] ?? $allowed_sorts['data_desc'];
 
 
 
 try {
-    // Query per recuperare le prenotazioni dell'utente.
-    // Raggruppiamo per contratto per gestire correttamente sia le prenotazioni singole che settimanali.
     $sql = "
         SELECT 
             c.numProgr,
@@ -66,8 +63,8 @@ try {
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Le mie Prenotazioni - Lido Paradiso</title>
-    <link rel="stylesheet" href="stile.css?v=<?= filemtime('stile.css') ?>">
+    <title>Le mie Prenotazioni - Lido Codici Sballati</title>
+    <link rel="stylesheet" href="assets/css/stile.css?v=<?= filemtime('assets/css/stile.css') ?>">
     <style>
         .prenotazione-card { background: #fffaf5; border: 1px solid #d3a27f; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: left; max-width: 800px; margin-left: auto; margin-right: auto; }
         .prenotazione-card h3 { margin-top: 0; border-bottom: 2px solid #c08457; padding-bottom: 10px; margin-bottom: 15px; }
@@ -94,7 +91,7 @@ try {
         <a href="index.php">Home</a>
         <a href="mappa.php">Mappa Spiaggia</a>
         <a href="le_mie_prenotazioni.php" class="active">Le mie Prenotazioni</a>
-        <a href="logout.php">Logout (<?= htmlspecialchars($_SESSION['nome_cliente']) ?>)</a>
+        <a href="profilo.php">Il mio profilo (<?= htmlspecialchars($_SESSION['nome_cliente']) ?>)</a>
     </nav>
     <main>
         <?php if (isset($_GET['status'])): ?>
@@ -136,8 +133,8 @@ try {
                     </div>
                     <div class="actions">
                         <?php if ($puo_modificare_cancellare): ?>
-                            <a href="modifica_prenotazione.php?id=<?= $p['numProgr'] ?>" class="btn-edit">Modifica</a>
-                            <a href="elimina_prenotazione.php?id=<?= $p['numProgr'] ?>" class="btn-delete">Cancella</a>
+                            <a href="src/booking/modifica_prenotazione.php?id=<?= $p['numProgr'] ?>" class="btn-edit">Modifica</a>
+                            <a href="src/booking/elimina_prenotazione.php?id=<?= $p['numProgr'] ?>" class="btn-delete">Cancella</a>
                             <?php else: ?>
                             <span class="btn-disabled" title="Non puoi modificare o cancellare prenotazioni in corso o passate.">Modifica</span>
                             <span class="btn-disabled" title="Non puoi modificare o cancellare prenotazioni in corso o passate.">Cancella</span>
@@ -151,4 +148,3 @@ try {
 </div>
 </body>
 </html>
-

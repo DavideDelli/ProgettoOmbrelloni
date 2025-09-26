@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Benvenuti al Lido Codici Sballati</title>
-    <link rel="stylesheet" href="stile.css?v=<?= filemtime('stile.css') ?>">
+    <link rel="stylesheet" href="assets/css/stile.css?v=<?= filemtime('assets/css/stile.css') ?>">
     </head>
 <body>
 <div class="container">
@@ -14,10 +14,10 @@
         <?php if (isset($_SESSION['codice_cliente'])): ?>
             <a href="mappa.php">Mappa Spiaggia</a>
             <a href="le_mie_prenotazioni.php">Le mie Prenotazioni</a>
-            <a href="logout.php">Logout (<?= htmlspecialchars($_SESSION['nome_cliente']) ?>)</a>
+            <a href="profilo.php">Il mio profilo (<?= htmlspecialchars($_SESSION['nome_cliente']) ?>)</a>
         <?php else: ?>
-            <a href="accesso.php">Accedi</a>
-            <a href="registrazione.php">Registrati</a>
+            <a href="src/auth/accesso.php">Accedi</a>
+            <a href="src/auth/registrazione.php">Registrati</a>
         <?php endif; ?>
     </nav>
     <main>
@@ -28,11 +28,11 @@
             <?php if (isset($_SESSION['codice_cliente'])): ?>
                 <a href="mappa.php" class="cta-button">Vai alla Mappa</a>
             <?php else: ?>
-                <a href="accesso.php" class="cta-button">Accedi o Registrati</a>
+                <a href="src/auth/accesso.php" class="cta-button">Accedi o Registrati</a>
             <?php endif; ?>
         </div>
     </main>
     <footer>© 2025 - Università degli Studi di Bergamo - Progetto Programmazione WEB</footer>
 </div>
 </body>
-</html>
+</html>
