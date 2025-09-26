@@ -3,12 +3,12 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Benvenuti al Lido Paradiso</title>
+    <title>Benvenuti al Lido Codici Sballati</title>
     <link rel="stylesheet" href="stile.css?v=<?= filemtime('stile.css') ?>">
     </head>
 <body>
 <div class="container">
-    <header>Lido Paradiso</header>
+    <header>LIDO CODICI SBALLATI</header>
     <nav>
         <a href="index.php" class="active">Home</a>
         <?php if (isset($_SESSION['codice_cliente'])): ?>
@@ -35,4 +35,4 @@
     <footer>© 2025 - Università degli Studi di Bergamo - Progetto Programmazione WEB</footer>
 </div>
 </body>
-</html>
+</html>

@@ -10,7 +10,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accesso - Lido Paradiso</title>
+    <title>Accesso - LIDO CODICI SBALLATI</title>
     <link rel="stylesheet" href="stile.css?v=<?= filemtime('stile.css') ?>">
 </head>
 <body>
@@ -47,4 +47,4 @@ session_start();
     <footer>© 2025 - Università degli Studi di Bergamo - Progetto Programmazione WEB</footer>
 </div>
 </body>
-</html>
+</html>

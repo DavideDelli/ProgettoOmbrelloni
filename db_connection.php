@@ -2,8 +2,8 @@
 // Impostazioni per la connessione al database
 $host = 'localhost';
 $dbname = 'my_ombrelloni';
-$user = 'root'; // <-- NUOVO UTENTE
-$password = '7733';    // <-- LA NUOVA PASSWORD CHE HAI SCELTO
+$user = 'ombrelloni'; // <-- NUOVO UTENTE
+$password = '';    // <-- LA NUOVA PASSWORD CHE HAI SCELTO
 
 // ... il resto del file rimane invariato ...
 $dsn = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";

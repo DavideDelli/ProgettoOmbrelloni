@@ -13,12 +13,18 @@ require_once 'db_connection.php';
 // Funzione helper per "tradurre" i codici delle tariffe
 function getNomeTariffa($codice) {
     $nomi = [
-        'STD_D' => 'Giornaliero Standard', 'STD_W' => 'Settimanale Standard',
-        'VIP_D' => 'Giornaliero VIP', 'VIP_W' => 'Settimanale VIP',
-        'STD_W_PREM' => 'Settimanale Premium', 'STD_W_APE'  => 'Settimanale Ape',
-        'VIP_W_PREM' => 'Settimanale VIP Premium', 'VIP_W_APE'  => 'Settimanale VIP Ape',
-        'STD_D_PREM' => 'Giornaliero Premium (con asciugamani)', 'STD_D_APE'  => 'Giornaliero Ape (con aperitivo)',
-        'VIP_D_PREM' => 'Giornaliero VIP Premium (con asciugamani)', 'VIP_D_APE'  => 'Giornaliero VIP Ape (con aperitivo)',
+        'STD_D' => 'Giornaliero Standard',
+        'STD_W' => 'Settimanale Standard',
+        'VIP_D' => 'Giornaliero VIP',
+        'VIP_W' => 'Settimanale VIP',
+        'STD_W_PREM' => 'Settimanale Premium (con asciugamani)',
+        'STD_W_APE' => 'Settimanale Ape (con aperitivo tutti i giorni)',
+        'VIP_W_PREM' => 'Settimanale VIP Premium (con asciugamani)',
+        'VIP_W_APE' => 'Settimanale VIP Ape (con aperitivo tutti i giorni)',
+        'STD_D_PREM' => 'Giornaliero Premium (con asciugamani)',
+        'STD_D_APE' => 'Giornaliero Ape (con aperitivo)',
+        'VIP_D_PREM' => 'Giornaliero VIP Premium (con asciugamani)',
+        'VIP_D_APE' => 'Giornaliero VIP Ape (con aperitivo)',
     ];
     return isset($nomi[$codice]) ? $nomi[$codice] : $codice;
 }
@@ -168,4 +174,4 @@ if (isset($_GET['id'], $_GET['data'], $_GET['tipo'])) {
     <footer>© 2025 - Università degli Studi di Bergamo - Progetto Programmazione WEB</footer>
 </div>
 </body>
-</html>
+</html>

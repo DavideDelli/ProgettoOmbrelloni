@@ -44,4 +44,4 @@
     <footer>© 2025 - Università degli Studi di Bergamo - Progetto Programmazione WEB</footer>
 </div>
 </body>
-</html>
+</html>

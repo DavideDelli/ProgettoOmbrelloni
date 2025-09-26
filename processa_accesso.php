@@ -33,4 +33,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !empty($_POST['codice_cliente'])) {
     header("Location: accesso.php");
     exit();
 }
-?>
+?>

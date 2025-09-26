@@ -225,4 +225,4 @@ function calcola_posizione_ombrellone($ombrellone) {
     })();
     </script>
 </body>
-</html>
+</html>
