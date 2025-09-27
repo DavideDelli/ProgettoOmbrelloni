@@ -6,7 +6,7 @@
     <title>Recupero Codice Cliente</title>
     <link rel="stylesheet" href="../../assets/css/stile.css?v=<?= filemtime('../../assets/css/stile.css') ?>">
 </head>
-<body>
+<body class="glass-ui">
 <div class="container">
     <header>Recupera Codice</header>
     <nav>
@@ -15,12 +15,12 @@
         <a href="registrazione.php">Registrati</a>
     </nav>
     <main>
-        <form action="processa_recupero.php" method="POST" class="form-prenotazione">
+        <form action="processa_recupero.php" method="POST" class="form-prenotazione glass-panel">
             <h3>Trova il tuo codice</h3>
-            <p style="margin-bottom:20px;">Inserisci i dati esatti con cui ti sei registrato.</p>
+            <p style="margin-bottom:20px; text-align: center;">Inserisci i dati esatti con cui ti sei registrato.</p>
             
-            <?php if (isset($_GET['errore'])): ?>
-                <div class="messaggio errore" style="max-width: 600px; margin: 0 auto 20px auto;">
+            <?php if (isset($_GET['errore'])):
+                <div class="messaggio errore glass-panel" style="margin-bottom: 20px;">
                     <p>Nessun cliente trovato con i dati inseriti. Controlla e riprova.</p>
                 </div>
             <?php endif; ?>
@@ -35,10 +35,10 @@
             </div>
             <div class="form-group">
                 <label for="dataNascita">Data di Nascita:</label>
-                <input type="date" id="dataNascita" name="dataNascita" style="width:100%;" required>
+                <input type="date" id="dataNascita" name="dataNascita" required>
             </div>
             
-            <div class="form-group">
+            <div class="form-group" style="text-align: center;">
                 <button type="submit">Trova il mio Codice</button>
             </div>
         </form>

@@ -30,14 +30,14 @@ try {
 <h1>Gestione Tariffe</h1>
 <p>Da questa pagina puoi creare, modificare ed eliminare le tariffe e associarle alle tipologie di ombrellone.</p>
 
-<?php if ($messaggio): ?><div class="messaggio successo"><p><?= htmlspecialchars($messaggio) ?></p></div><?php endif; ?>
-<?php if ($errore): ?><div class="messaggio errore"><p><?= htmlspecialchars($errore) ?></p></div><?php endif; ?>
+<?php if ($messaggio): ?><div class="messaggio successo glass-panel"><p><?= htmlspecialchars($messaggio) ?></p></div><?php endif; ?>
+<?php if ($errore): ?><div class="messaggio errore glass-panel"><p><?= htmlspecialchars($errore) ?></p></div><?php endif; ?>
 
-<div style="text-align: right; margin-bottom: 20px;">
+<div style="text-align: right; margin-bottom: 20px;" class="glass-panel">
     <a href="aggiungi_tariffa.php" class="button">Aggiungi Nuova Tariffa</a>
 </div>
 
-<table class="admin-table">
+<table class="admin-table glass-panel">
     <thead>
         <tr>
             <th>Codice</th>
@@ -63,8 +63,8 @@ try {
                 <td><?= htmlspecialchars(str_replace(',', ', ', $tariffa['tipologie'] ?? 'Nessuna')) ?></td>
                 <td>
                     <div style="display: flex; gap: 5px; justify-content: center;">
-                        <a href="modifica_tariffa.php?codice=<?= htmlspecialchars($tariffa['codice']) ?>" class="button-link" style="background-color: #007bff; flex-grow: 1; text-align: center; padding: 5px 10px; font-size: 0.9em;">Modifica</a>
-                        <a href="elimina_tariffa.php?codice=<?= htmlspecialchars($tariffa['codice']) ?>" class="button-link" style="background-color: #dc3545; flex-grow: 1; text-align: center; padding: 5px 10px; font-size: 0.9em;" onclick="return confirm('Sei sicuro di voler eliminare questa tariffa? L\'azione è irreversibile.');">Elimina</a>
+                        <a href="modifica_tariffa.php?codice=<?= htmlspecialchars($tariffa['codice']) ?>" class="button-link" style="background-color: #007bff;">Modifica</a>
+                        <a href="elimina_tariffa.php?codice=<?= htmlspecialchars($tariffa['codice']) ?>" class="button-link" style="background-color: #dc3545;" onclick="return confirm('Sei sicuro di voler eliminare questa tariffa? L\'azione è irreversibile.');">Elimina</a>
                     </div>
                 </td>
             </tr>

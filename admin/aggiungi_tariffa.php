@@ -15,13 +15,13 @@ try {
 <p>Compila i campi sottostanti per creare una nuova tariffa.</p>
 
 <?php if (!empty($errore)): ?>
-    <div class="messaggio errore"><p><?= htmlspecialchars($errore) ?></p></div>
+    <div class="messaggio errore glass-panel"><p><?= htmlspecialchars($errore) ?></p></div>
 <?php endif; ?>
 
-<form method="POST" action="processa_tariffa.php" class="form-prenotazione" style="max-width: 800px; text-align: left;">
+<form method="POST" action="processa_tariffa.php" class="form-prenotazione glass-panel" style="max-width: 800px; text-align: left;">
     <input type="hidden" name="azione" value="crea">
 
-    <fieldset>
+    <fieldset class="glass-panel">
         <legend>Dettagli Tariffa</legend>
         <div class="form-group">
             <label for="codice">Codice Tariffa (es. STD_D_2025):</label>
@@ -44,7 +44,7 @@ try {
         </div>
     </fieldset>
 
-    <fieldset>
+    <fieldset class="glass-panel">
         <legend>Periodo di Validità</legend>
         <div class="form-group">
             <label for="dataInizio">Data Inizio:</label>
@@ -56,7 +56,7 @@ try {
         </div>
     </fieldset>
 
-    <fieldset>
+    <fieldset class="glass-panel">
         <legend>Associazione Tipologie Ombrellone</legend>
         <p>Seleziona a quali tipologie di ombrellone questa tariffa si applica.</p>
         <?php foreach ($tipologie as $tipologia): ?>

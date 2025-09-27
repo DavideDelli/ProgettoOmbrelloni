@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>Benvenuti al Lido Codici Sballati</title>
     <link rel="stylesheet" href="assets/css/stile.css?v=<?= filemtime('assets/css/stile.css') ?>">
-    </head>
-<body>
+</head>
+<body class="glass-ui">
 <div class="container">
     <header>LIDO CODICI SBALLATI</header>
     <nav>
@@ -21,14 +21,14 @@
         <?php endif; ?>
     </nav>
     <main>
-        <div class="hero">
+        <div class="hero glass-panel" style="padding: 40px; text-align: center;">
             <h1>La tua oasi di relax al mare</h1>
             <p>Per garantirti il miglior posto in spiaggia, accedi con il tuo Codice Cliente o registrati per ottenerne uno. Una volta dentro, potrai visualizzare la mappa e prenotare il tuo ombrellone.</p>
             
             <?php if (isset($_SESSION['codice_cliente'])): ?>
-                <a href="mappa.php" class="cta-button">Vai alla Mappa</a>
+                <a href="mappa.php" class="button">Vai alla Mappa</a>
             <?php else: ?>
-                <a href="src/auth/accesso.php" class="cta-button">Accedi o Registrati</a>
+                <a href="src/auth/accesso.php" class="button">Accedi o Registrati</a>
             <?php endif; ?>
         </div>
     </main>

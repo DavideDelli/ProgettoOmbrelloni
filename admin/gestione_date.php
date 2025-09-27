@@ -59,17 +59,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <h1>Gestione Date Disponibili</h1>
 <p>Usa questo modulo per "aprire" la spiaggia per un determinato periodo. Il sistema creerà le disponibilità per tutti gli ombrelloni nelle date specificate.<br><strong>Attenzione:</strong> L'operazione non sovrascrive le date esistenti, ma aggiunge solo quelle mancanti.</p>
 
-<?php if ($messaggio): ?><div class="messaggio successo" style="background-color: #d4edda; border-color: #c3e6cb; color: #155724;"><p><?= htmlspecialchars($messaggio) ?></p></div><?php endif; ?>
-<?php if ($errore): ?><div class="messaggio errore"><p><?= htmlspecialchars($errore) ?></p></div><?php endif; ?>
+<?php if ($messaggio): ?><div class="messaggio successo glass-panel"><p><?= htmlspecialchars($messaggio) ?></p></div><?php endif; ?>
+<?php if ($errore): ?><div class="messaggio errore glass-panel"><p><?= htmlspecialchars($errore) ?></p></div><?php endif; ?>
 
-<form method="POST" action="gestione_date.php" class="form-prenotazione" style="max-width: 600px;">
-    <fieldset>
+<form method="POST" action="gestione_date.php" class="form-prenotazione glass-panel" style="max-width: 600px;">
+    <fieldset class="glass-panel">
         <legend>Aggiungi Periodo di Disponibilità</legend>
-        <div class="form-group"><label for="data_inizio">Data Inizio:</label><input type="date" id="data_inizio" name="data_inizio" required style="width:100%; padding:10px; border:1px solid #7c3f06; border-radius:6px; font-size:1em; box-sizing: border-box;"></div>
-        <div class="form-group"><label for="data_fine">Data Fine:</label><input type="date" id="data_fine" name="data_fine" required style="width:100%; padding:10px; border:1px solid #7c3f06; border-radius:6px; font-size:1em; box-sizing: border-box;"></div>
+        <div class="form-group"><label for="data_inizio">Data Inizio:</label><input type="date" id="data_inizio" name="data_inizio" required></div>
+        <div class="form-group"><label for="data_fine">Data Fine:</label><input type="date" id="data_fine" name="data_fine" required></div>
     </fieldset>
-    <div class="form-group"><button type="submit">Aggiungi Disponibilità</button></div>
+    <div class="form-group" style="text-align: center;"><button type="submit">Aggiungi Disponibilità</button></div>
 </form>
 
 <?php require_once 'partials/footer.php'; ?>
-

@@ -32,17 +32,45 @@ function getNomeTariffa($codice) {
     <title><?= htmlspecialchars($page_title ?? 'Admin') ?> - Lido Codici Sballati</title>
     <link rel="stylesheet" href="../assets/css/stile.css?v=<?= filemtime('../assets/css/stile.css') ?>">
     <style>
-        /* Stili specifici per l'admin */
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .admin-table th, .admin-table td { border: 1px solid #d3a27f; padding: 12px; text-align: left; }
-        .admin-table th { background-color: #c08457; color: #3b2a1a; }
-        .admin-table tr:nth-child(even) { background-color: #f2dfd3; }
-        .admin-table input[type="number"], .admin-table input[type="text"] { width: 100px; padding: 5px; }
-        main { padding: 2rem; }
-        .admin-container { max-width: 1000px; margin: 0 auto; }
+        /* Stili specifici per l'admin con effetto vetro */
+        body.glass-ui .admin-container { max-width: 1200px; margin: 0 auto; }
+        body.glass-ui .admin-table {
+            width: 100%;
+            border-collapse: separate; /* Necessario per i bordi arrotondati */
+            border-spacing: 0;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            overflow: hidden; /* Per applicare il border-radius alle celle */
+        }
+        body.glass-ui .admin-table th, body.glass-ui .admin-table td {
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            text-align: left;
+            color: #FFF;
+        }
+        body.glass-ui .admin-table th {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        body.glass-ui .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+        body.glass-ui .admin-table input, body.glass-ui .admin-table select {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        body.glass-ui main { padding: 2rem; }
+        body.glass-ui .form-prenotazione, body.glass-ui .riepilogo-box {
+            max-width: 100%;
+        }
     </style>
 </head>
-<body>
+<body class="glass-ui">
 <div class="container">
     <header>Pannello Admin</header>
     <nav>
@@ -50,8 +78,7 @@ function getNomeTariffa($codice) {
         <a href="gestione_tariffe.php">Gestione Tariffe</a>
         <a href="gestione_date.php">Gestione Date</a>
         <a href="../index.php" target="_blank">Vedi Sito</a>
-        <a href="profilo.php">Il mio profilo</a>
+        <a href="logout.php">Logout</a>
     </nav>
     <main>
         <div class="admin-container">
-

@@ -7,7 +7,7 @@
     <title>Registrazione - Lido Codici Sballati</title>
     <link rel="stylesheet" href="../../assets/css/stile.css?v=<?= filemtime('../../assets/css/stile.css') ?>">
 </head>
-<body>
+<body class="glass-ui">
 <div class="container">
     <header>Crea il tuo Account</header>
     <nav>
@@ -16,7 +16,7 @@
         <a href="registrazione.php" class="active">Registrati</a>
     </nav>
     <main>
-        <form action="salva_registrazione.php" method="POST" class="form-prenotazione">
+        <form action="salva_registrazione.php" method="POST" class="form-prenotazione glass-panel">
             <h3>Inserisci i tuoi dati per ottenere il Codice Cliente</h3>
             
             <div class="form-group">
@@ -29,14 +29,14 @@
             </div>
             <div class="form-group">
                 <label for="dataNascita">Data di Nascita:</label>
-                <input type="date" id="dataNascita" name="dataNascita" style="width:100%; padding:10px; border:1px solid #7c3f06; border-radius:6px; font-size:1em; box-sizing: border-box;" required>
+                <input type="date" id="dataNascita" name="dataNascita" required>
             </div>
             <div class="form-group">
                 <label for="indirizzo">Indirizzo (opzionale):</label>
                 <input type="text" id="indirizzo" name="indirizzo">
             </div>
             
-            <div class="form-group">
+            <div class="form-group" style="text-align: center;">
                 <button type="submit">Crea il mio Codice</button>
             </div>
         </form>
