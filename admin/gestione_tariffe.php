@@ -2,37 +2,25 @@
 $page_title = 'Gestione Tariffe';
 require_once 'partials/header.php';
 
-$messaggio = '';
-$errore = '';
-
-// Logica di aggiornamento
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prezzi'])) {
-    try {
-        $pdo->beginTransaction();
-        $sql = "UPDATE tariffa SET prezzo = :prezzo WHERE codice = :codice";
-        $stmt = $pdo->prepare($sql);
-
-        foreach ($_POST['prezzi'] as $codice => $prezzo) {
-            $prezzo_float = filter_var($prezzo, FILTER_VALIDATE_FLOAT);
-            if ($prezzo_float === false || $prezzo_float < 0) {
-                throw new Exception("Il prezzo per la tariffa '{$codice}' non è valido.");
-            }
-            $stmt->execute(['prezzo' => $prezzo_float, 'codice' => $codice]);
-        }
-
-        $pdo->commit();
-        $messaggio = "Tariffe aggiornate con successo!";
-    } catch (Exception $e) {
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-        $errore = "Errore durante l'aggiornamento: " . $e->getMessage();
-    }
+$messaggio = $_SESSION['messaggio_tariffa'] ?? '';
+if ($messaggio) {
+    unset($_SESSION['messaggio_tariffa']);
 }
 
-// Recupero tariffe
+$errore = '';
+
+// Recupero tariffe con le tipologie associate
 try {
-    $tariffe = $pdo->query("SELECT * FROM tariffa ORDER BY tipo, codice")->fetchAll(PDO::FETCH_ASSOC);
+    $sql = "
+        SELECT 
+            t.*, 
+            GROUP_CONCAT(tt.codTipologia ORDER BY tt.codTipologia) AS tipologie
+        FROM tariffa t
+        LEFT JOIN tipologiatariffa tt ON t.codice = tt.codTariffa
+        GROUP BY t.codice
+        ORDER BY t.tipo, t.codice
+    ";
+    $tariffe = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     $errore = "Impossibile caricare le tariffe: " . $e->getMessage();
     $tariffe = [];
@@ -40,38 +28,49 @@ try {
 ?>
 
 <h1>Gestione Tariffe</h1>
-<p>Modifica i prezzi per ogni tipo di tariffa. I cambiamenti saranno applicati a tutte le nuove prenotazioni.</p>
+<p>Da questa pagina puoi creare, modificare ed eliminare le tariffe e associarle alle tipologie di ombrellone.</p>
 
-<?php if ($messaggio): ?><div class="messaggio successo" style="background-color: #d4edda; border-color: #c3e6cb; color: #155724;"><p><?= htmlspecialchars($messaggio) ?></p></div><?php endif; ?>
+<?php if ($messaggio): ?><div class="messaggio successo"><p><?= htmlspecialchars($messaggio) ?></p></div><?php endif; ?>
 <?php if ($errore): ?><div class="messaggio errore"><p><?= htmlspecialchars($errore) ?></p></div><?php endif; ?>
 
-<form method="POST" action="gestione_tariffe.php">
-    <table class="admin-table">
-        <thead>
+<div style="text-align: right; margin-bottom: 20px;">
+    <a href="aggiungi_tariffa.php" class="button">Aggiungi Nuova Tariffa</a>
+</div>
+
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>Codice</th>
+            <th>Prezzo</th>
+            <th>Tipo</th>
+            <th>Validità</th>
+            <th>Tipologie Associate</th>
+            <th style="width: 200px;">Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if (empty($tariffe)): ?>
             <tr>
-                <th>Codice</th>
-                <th>Nome</th>
-                <th>Tipo</th>
-                <th>Prezzo (€)</th>
+                <td colspan="6" style="text-align: center;">Nessuna tariffa trovata.</td>
             </tr>
-        </thead>
-        <tbody>
+        <?php else: ?>
             <?php foreach ($tariffe as $tariffa): ?>
             <tr>
-                <td><?= htmlspecialchars($tariffa['codice']) ?></td>
-                <td><?= htmlspecialchars(getNomeTariffa($tariffa['codice'])) ?></td>
+                <td><strong><?= htmlspecialchars($tariffa['codice']) ?></strong><br><small><?= htmlspecialchars(getNomeTariffa($tariffa['codice'])) ?></small></td>
+                <td>€ <?= htmlspecialchars(number_format($tariffa['prezzo'], 2, ',', '.')) ?></td>
                 <td><?= htmlspecialchars($tariffa['tipo']) ?></td>
+                <td>Dal <?= htmlspecialchars(date("d/m/Y", strtotime($tariffa['dataInizio']))) ?><br>al <?= htmlspecialchars(date("d/m/Y", strtotime($tariffa['dataFine']))) ?></td>
+                <td><?= htmlspecialchars(str_replace(',', ', ', $tariffa['tipologie'] ?? 'Nessuna')) ?></td>
                 <td>
-                    <input type="number" step="0.01" min="0" name="prezzi[<?= htmlspecialchars($tariffa['codice']) ?>]" value="<?= htmlspecialchars(number_format($tariffa['prezzo'], 2, '.', '')) ?>" required>
+                    <div style="display: flex; gap: 5px; justify-content: center;">
+                        <a href="modifica_tariffa.php?codice=<?= htmlspecialchars($tariffa['codice']) ?>" class="button-link" style="background-color: #007bff; flex-grow: 1; text-align: center; padding: 5px 10px; font-size: 0.9em;">Modifica</a>
+                        <a href="elimina_tariffa.php?codice=<?= htmlspecialchars($tariffa['codice']) ?>" class="button-link" style="background-color: #dc3545; flex-grow: 1; text-align: center; padding: 5px 10px; font-size: 0.9em;" onclick="return confirm('Sei sicuro di voler eliminare questa tariffa? L\'azione è irreversibile.');">Elimina</a>
+                    </div>
                 </td>
             </tr>
             <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div style="text-align: right; margin-top: 20px;">
-        <button type="submit">Salva Modifiche</button>
-    </div>
-</form>
+        <?php endif; ?>
+    </tbody>
+</table>
 
 <?php require_once 'partials/footer.php'; ?>
-

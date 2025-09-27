@@ -7,7 +7,8 @@ if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== tru
     exit();
 }
 
-require_once __DIR__ . '/../../../src/db_connection.php';
+// Percorso corretto per il file di connessione
+require_once __DIR__ . '/../../src/db_connection.php';
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 

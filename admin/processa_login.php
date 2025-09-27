@@ -3,7 +3,7 @@ session_start();
 
 // NOTA: La password è hardcoded. In un ambiente di produzione, 
 // dovrebbe essere hashata e memorizzata in modo sicuro.
-$admin_password_corretta = 'password'; 
+$admin_password_corretta = 'admin123';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password'])) {
     if ($_POST['password'] === $admin_password_corretta) {
