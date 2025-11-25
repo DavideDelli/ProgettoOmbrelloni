@@ -3,12 +3,13 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Benvenuti al Lido Codici Sballati</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lido Codici Sballati - Home</title>
     <link rel="stylesheet" href="assets/css/stile.css?v=<?= filemtime('assets/css/stile.css') ?>">
 </head>
-<body class="glass-ui">
+<body>
 <div class="container">
-    <header>LIDO CODICI SBALLATI</header>
+    <header><h1>LIDO CODICI SBALLATI</h1></header>
     <nav>
         <a href="index.php" class="active">Home</a>
         <?php if (isset($_SESSION['codice_cliente'])): ?>
@@ -21,18 +22,24 @@
         <?php endif; ?>
     </nav>
     <main>
-        <div class="hero glass-panel" style="padding: 40px; text-align: center;">
-            <h1>La tua oasi di relax al mare</h1>
-            <p>Per garantirti il miglior posto in spiaggia, accedi con il tuo Codice Cliente o registrati per ottenerne uno. Una volta dentro, potrai visualizzare la mappa e prenotare il tuo ombrellone.</p>
+        <div class="glass-panel" style="text-align: center; padding: 50px 30px; margin-top: 5vh;">
+            <h1 style="font-size: 3rem; margin-bottom: 20px;">LUSSO E RELAX</h1>
+            <p style="font-size: 1.3rem; color: #5d4037; margin-bottom: 40px;">
+                La tua oasi esclusiva ti aspetta. 
+                <br>Prenota il tuo posto al sole con un click.
+            </p>
             
             <?php if (isset($_SESSION['codice_cliente'])): ?>
-                <a href="mappa.php" class="button">Vai alla Mappa</a>
+                <a href="mappa.php" class="button" style="padding: 15px 50px; font-size: 1.2rem;">Vai alla Mappa</a>
             <?php else: ?>
-                <a href="src/auth/accesso.php" class="button">Accedi o Registrati</a>
+                <div style="display: flex; gap: 20px; justify-content: center;">
+                    <a href="src/auth/accesso.php" class="button">Accedi</a>
+                    <a href="src/auth/registrazione.php" class="button button-secondary">Registrati</a>
+                </div>
             <?php endif; ?>
         </div>
     </main>
-    <footer>© 2025 - Università degli Studi di Bergamo - Progetto Programmazione WEB</footer>
+    <footer>© 2025 - Lido Codici Sballati</footer>
 </div>
 </body>
 </html>
