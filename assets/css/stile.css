@@ -63,6 +63,34 @@ input[type="text"], input[type="password"], select { width: 100%; padding: 10px;
 /* 2. OVERRIDE PER INTERFACCIA "LIQUID GLASS"            */
 /* ===================================================== */
 
+
+
+button {
+    /* Stesse proprietà della classe .button per coerenza */
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s;
+    cursor: pointer;
+    font-size: 1em;
+    border: none;
+    background-color: #773d03;
+    
+    /* Proprietà aggiuntive per normalizzare l'aspetto dei bottoni */
+    font-family: inherit; /* Assicura che usi lo stesso font del resto della pagina */
+    line-height: 1.6; /* Allinea l'altezza del testo a quella del resto del body */
+    box-sizing: border-box; /* Comportamento del box model consistente */
+}
+
+button:hover {
+    /* Stesso effetto hover della classe .button */
+    background-color: #7c3f06;
+    transform: scale(1.05);
+}
+
 body.glass-ui {
     background: #5c3c1a radial-gradient(circle, #ac6730, #7c3f06);
     color: #FFFFFF;

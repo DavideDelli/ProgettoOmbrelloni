@@ -24,11 +24,11 @@ error_reporting(E_ALL);
         <form action="processa_accesso.php" method="POST" class="form-prenotazione glass-panel">
             <h3>Accedi con il tuo Codice Cliente</h3>
             
-            <?php if (isset($_GET['errore'])):
-                <div class="messaggio errore glass-panel" style="margin-bottom: 20px;">
-                    <p>Codice Cliente non valido o non trovato. Riprova.</p>
-                </div>
-            <?php endif; ?>
+            <?php if (isset($_GET['errore'])): ?>
+            <div class="messaggio errore glass-panel" style="margin-bottom: 20px;">
+                <p>Codice Cliente non valido o non trovato. Riprova.</p>
+            </div>
+        	<?php endif; ?>
 
             <div class="form-group">
                 <label for="codice_cliente">Il tuo Codice Cliente:</label>
