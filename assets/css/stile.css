@@ -1,201 +1,303 @@
-/* STILE IBRIDO DEFINITIVO - LIDO CODICI SBALLATI */
+/* STILE "LIDO MAREA BROWN" - 2025 */
+/* Concept: Onde che 'respirano' sulla riva, numeri grandi, palette marrone lusso */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap');
+
+body { 
+    margin: 0; 
+    font-family: 'Outfit', sans-serif;
+    background: linear-gradient(135deg, #c69c6d 0%, #8b5a2b 50%, #5d3a1a 100%);
+    background-attachment: fixed;
+    color: #3e2723; 
+    line-height: 1.5; 
+    overflow: hidden; 
+}
+
+.container { display: flex; flex-direction: column; height: 100vh; }
+a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; }
 
 /* =================================== */
-/* 1. STILI ORIGINALI (BASE)           */
+/* 2. HEADER & NAV                     */
 /* =================================== */
 
-body { margin: 0; font-family: Arial, sans-serif; background-color: #f2dfd3; color: #3b2a1a; line-height: 1.6; }
-.container { display: flex; flex-direction: column; min-height: 100vh; }
-header { background: linear-gradient(90deg, #964b00, #7c3f06); color: #D2A679; text-align: center; padding: 2rem 1rem; font-size: 2.5em; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; text-shadow: 2px 2px 6px #2b1a0e; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
-nav { background-color: #ac6730; padding: 1rem; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-nav a { color: white; text-decoration: none; margin: 0 1.5rem; font-weight: 600; padding: 0.5rem 1rem; border-radius: 25px; transition: background-color 0.3s, transform 0.2s; }
-nav a:hover, nav a.active { background-color: #7c3f06; transform: translateY(-2px); }
-.button-link, .button { display: inline-block; padding: 0.75rem 1.5rem; border-radius: 25px; color: white; text-decoration: none; font-weight: bold; transition: all 0.3s; cursor: pointer; font-size: 1em; border: none; background-color: #773d03; }
-.button-link:hover, .button:hover { background-color: #7c3f06; transform: scale(1.05); }
-.messaggio { padding: 20px; border-radius: 10px; margin: 2rem auto; max-width: 700px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
-.messaggio h2 { margin-top: 0; padding-bottom: 10px; margin-bottom: 15px; }
-.messaggio.errore { background-color: #fbeee4; border: 2px solid #dc3545; color: #3b2a1a; }
-.messaggio.errore h2 { color: #c82333; border-bottom: 1px solid #e0b3a1; }
-.messaggio-conferma { background-color: #fbeee4; border: 2px solid #c08457; color: #3b2a1a; padding: 20px; border-radius: 10px; max-width: 700px; margin: 2rem auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-.messaggio-conferma h2 { margin-top: 0; color: #7c3f06; border-bottom: 1px solid #d3a27f; padding-bottom: 10px; margin-bottom: 15px; }
-.search-filter { background-color: #c08457; padding: 1.5rem; text-align: center; border-bottom: 1px solid #c5a990; }
-.search-filter form { display: flex; justify-content: center; align-items: center; gap: 1rem; }
-.search-filter label { font-weight: bold; font-size: 1.1em; color: #3b2a1a; }
-input[type="date"] { font-size: 1em; padding: 0.75rem 1.5rem; border-radius: 25px; border: 2px solid #7c3f06; transition: all 0.3s; background-color: #fffaf5; }
-main { flex: 1; padding: 2rem 0; text-align: center; background-color: #d3a27f; }
-main h3 { font-size: 1.5em; margin-bottom: 1rem; padding: 0 2rem; }
-.legenda-container { padding: 15px 20px; margin-bottom: 1rem; }
-.legenda { margin: 0 auto; display: flex; justify-content: center; align-items: center; gap: 1.5rem; font-weight: 500; }
-.legenda span { display: flex; align-items: center; gap: 0.5rem; }
-.legenda .box { width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.2); }
-.legenda .box.disponibile { background-color: #28a745; }
-.legenda .box.vip { background-color: #ffc107; }
-.legenda .box.occupato { background-color: rgba(255, 255, 255, 0.6); }
-.spiaggia-mappa-container { display: flex; flex-direction: column; width: 100%; height: 800px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); overflow: hidden; border: 1px solid #a58d7a; }
-.mare { flex: 1.5; background: linear-gradient(to bottom, #65a9d7 0%, #87ceeb 50%, #add8e6 100%); position: relative; overflow: hidden; z-index: 1; }
-.mare::before, .mare::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 200%; height: 50px; background: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDBweCIgdmlld0JveD0iMCAwIDEyODAgMTQwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnPjxwYXRoIGQ9Ik0xMjgwIDU2LjU1QzEwNzUgMjQuNzUgODE1IDExLj2NTAgMTEuMjVTMTkwIDIzLjI1IDAgNTUuMDVWMTQwSDEyODBWMzYuNTV6IiBmaWxsPSIjZjRlMWMxIi8+PC9nPjwvc3ZnPg==) repeat-x; background-size: 50% 50px; animation: wave-flow 10s linear infinite; }
-.mare::after { bottom: 0; opacity: 0.5; animation-duration: 15s; }
-@keyframes wave-flow { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-.sabbia { flex-basis: 85%; background-image: linear-gradient(to bottom, #f2e2c4, #eacda3); position: relative; z-index: 2; }
-.wooden-path { position: absolute; top: 0; bottom: 100px; width: 40px; background-image: repeating-linear-gradient(to bottom, #a0522d, #a0522d 10px, transparent 10px, transparent 20px); z-index: 8; transform: translateX(-50%); }
-.avenue-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 100px; z-index: 7; }
-.sidewalk { position: absolute; bottom: 20px; left: 0; width: 100%; height: 80px; background-color: #D2B48C; background-image: repeating-linear-gradient(45deg, #A0522D 25%, transparent 25%, transparent 75%, #A0522D 75%, #A0522D), repeating-linear-gradient(45deg, #A0522D 25%, transparent 25%, transparent 75%, #A0522D 75%, #A0522D); background-position: 0 0, 20px 20px; background-size: 40px 40px; }
-.road { position: absolute; bottom: 0; left: 0; width: 100%; height: 20px; background-color: #333; }
-.settore-label { position: absolute; text-align: center; color: #8b5e34; font-size: 1.6em; font-weight: bold; text-shadow: 1px 1px 2px rgba(255,255,255,0.7); transform: translateX(-50%); }
-.ombrellone-wrapper { position: absolute; width: 2.5%; height: 4%; cursor: pointer; transition: transform 0.2s ease-in-out; display: flex; align-items: center; justify-content: center; z-index: 9; }
-.ombrellone-wrapper:hover { transform: scale(1.5) !important; z-index: 10; }
-.ombrellone-icon { width: 70%; padding-bottom: 70%; border-radius: 50%; box-shadow: inset 0 -2px 4px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.5); }
-.ombrellone-numero { position: absolute; font-size: 10px; font-weight: bold; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.7); pointer-events: none; }
-.ombrellone-wrapper.disponibile .ombrellone-icon { background-color: #28a745; }
-.ombrellone-wrapper.disponibile.vip .ombrellone-icon { background-color: #ffc107; }
-.ombrellone-wrapper.disponibile.vip .ombrellone-numero { color: #333; }
-.ombrellone-wrapper.occupato { cursor: not-allowed; }
-.ombrellone-wrapper.occupato .ombrellone-icon { background-color: rgba(150, 150, 150, 0.7); }
-.ombrellone-wrapper.occupato .ombrellone-numero { color: #ccc; text-shadow: none; }
-footer { background-color: #7c3f06; color: white; text-align: center; padding: 15px; font-size: 0.9em; }
-.form-prenotazione, .riepilogo-box, .messaggio, .messaggio-conferma, .prenotazione-card { background-color: #f2dfd3; border: 1px solid #d3a27f; padding: 25px; border-radius: 12px; max-width: 800px; margin: 25px auto; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-.form-prenotazione h3, .riepilogo-box h3, .messaggio h2, .messaggio-conferma h2, .prenotazione-card h3 { margin-top: 0; color: #3b2a1a; font-size: 1.4em; margin-bottom: 15px; border-bottom: 2px solid #ac6730; padding-bottom: 8px; }
-.form-group { margin-bottom: 20px; }
-.form-group label { display: block; font-weight: bold; color: #3b2a1a; margin-bottom: 8px; }
-input[type="text"], input[type="password"], select { width: 100%; padding: 10px; border: 1px solid #7c3f06; border-radius: 6px; background-color: #fffaf5; font-size: 1em; box-sizing: border-box; }
-
-/* ===================================================== */
-/* 2. OVERRIDE PER INTERFACCIA "LIQUID GLASS"            */
-/* ===================================================== */
-
-
-
-button {
-    /* Stesse proprietà della classe .button per coerenza */
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    border-radius: 25px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    transition: all 0.3s;
-    cursor: pointer;
-    font-size: 1em;
-    border: none;
-    background-color: #773d03;
-    
-    /* Proprietà aggiuntive per normalizzare l'aspetto dei bottoni */
-    font-family: inherit; /* Assicura che usi lo stesso font del resto della pagina */
-    line-height: 1.6; /* Allinea l'altezza del testo a quella del resto del body */
-    box-sizing: border-box; /* Comportamento del box model consistente */
+header { 
+    background: #4e342e; 
+    text-align: center; 
+    padding: 1rem; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    z-index: 100;
+    position: relative;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-button:hover {
-    /* Stesso effetto hover della classe .button */
-    background-color: #7c3f06;
-    transform: scale(1.05);
+header h1 {
+    margin: 0;
+    font-weight: 800;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: linear-gradient(to right, #ffe0b2, #fff, #ffe0b2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
-body.glass-ui {
-    background: #5c3c1a radial-gradient(circle, #ac6730, #7c3f06);
-    color: #FFFFFF;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-}
-body.glass-ui main { background-color: transparent !important; }
-
-body.glass-ui header, body.glass-ui footer {
-    background: transparent;
-    border-color: rgba(255, 255, 255, 0.1) !important;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    box-shadow: none !important;
-}
-body.glass-ui nav {
-    background: rgba(0, 0, 0, 0.1);
-    box-shadow: none !important;
-}
-body.glass-ui nav a:hover, body.glass-ui nav a.active { background-color: rgba(255, 255, 255, 0.15); }
-
-body.glass-ui .glass-panel {
-    background: rgba(255, 255, 255, 0.1) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 16px !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2) !important;
-    color: #FFF !important;
-    padding: 20px;
-    margin: 2rem auto;
-}
-
-body.glass-ui .search-filter.glass-panel { border-bottom: none !important; }
-body.glass-ui .legenda-container.glass-panel { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 15px 20px; }
-
-body.glass-ui .glass-panel h3, body.glass-ui .glass-panel h2, body.glass-ui .glass-panel p, body.glass-ui .glass-panel label, body.glass-ui .glass-panel .legenda {
-    color: #FFF !important;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-}
-
-body.glass-ui .glass-panel h3, body.glass-ui .glass-panel h2 { border-bottom-color: rgba(255, 255, 255, 0.3) !important; }
-body.glass-ui .legenda-container.glass-panel .legenda { padding: 0; margin: 0; }
-body.glass-ui .legenda-container.glass-panel .legenda .box { border-color: rgba(255,255,255,0.5); }
-
-body.glass-ui .glass-panel input[type="date"], body.glass-ui .glass-panel input[type="text"], body.glass-ui .glass-panel input[type="password"], body.glass-ui .glass-panel select {
-    border-color: rgba(255, 255, 255, 0.3) !important;
-    background-color: rgba(0, 0, 0, 0.2) !important;
-    color: #FFF !important;
-}
-
-body.glass-ui .glass-panel .button, body.glass-ui .glass-panel button {
-    background: rgba(255, 255, 255, 0.9) !important;
-    color: #3b2a1a !important;
-}
-body.glass-ui .glass-panel .button:hover, body.glass-ui .glass-panel button:hover {
-    background: #FFF !important;
-}
-
-/* Stili specifici per l'admin con effetto vetro */
-body.glass-ui .admin-table {
-    width: 100%;
-    border-collapse: separate; /* Necessario per i bordi arrotondati */
-    border-spacing: 0;
-    margin-top: 20px;
-    background: rgba(255, 255, 255, 0.1);
+nav { 
+    background: rgba(255, 255, 255, 0.1); 
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-    overflow: hidden; /* Per applicare il border-radius alle celle */
-}
-body.glass-ui .admin-table th, body.glass-ui .admin-table td {
-    border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 15px;
-    text-align: left;
-    color: #FFF;
-}
-body.glass-ui .admin-table th {
-    background-color: rgba(255, 255, 255, 0.15);
-}
-body.glass-ui .admin-table tr:last-child td {
-    border-bottom: none;
-}
-body.glass-ui .admin-table input, body.glass-ui .admin-table select {
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
     width: 100%;
-    box-sizing: border-box;
-}
-body.glass-ui .admin-container { max-width: 1200px; margin: 0 auto; }
-
-/* Override per i fieldset e legend all'interno dei pannelli glass */
-body.glass-ui fieldset {
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    background: transparent !important;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    padding: 15px;
-}
-body.glass-ui legend {
-    color: #FFF !important;
-    font-weight: bold;
-    padding: 0 5px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    z-index: 99;
 }
 
-/* Override per i link all'interno dei pannelli glass */
-body.glass-ui .glass-panel a, body.glass-ui .riepilogo-box a, body.glass-ui .form-prenotazione a {
-    color: #f0e68c !important; /* Giallo paglierino per contrasto */
+nav a { 
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    position: relative;
+    transition: color 0.3s;
 }
+
+nav a:hover { color: #fff; }
+nav a.active { color: #ffcc80; font-weight: 700; }
+nav a.active::after {
+    content: ''; position: absolute; bottom: 0; left: 25px; right: 25px; height: 3px;
+    background: #ffcc80; border-radius: 3px 3px 0 0;
+}
+
+/* =================================== */
+/* 3. CONTROLLI GLASS                  */
+/* =================================== */
+
+.control-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 94%;
+    max-width: 1400px;
+    margin: 15px auto;
+    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.25); 
+    backdrop-filter: blur(25px) saturate(120%);
+    -webkit-backdrop-filter: blur(25px) saturate(120%);
+    border: 1px solid rgba(255, 255, 255, 0.4); 
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(93, 64, 55, 0.25);
+    color: #3e2723;
+}
+
+.search-group form { display: flex; align-items: center; gap: 20px; }
+.search-group label { 
+    font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #3e2723;
+}
+
+input[type="date"] { 
+    background: rgba(255, 255, 255, 0.6); 
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: 8px 16px; border-radius: 12px;
+    font-family: inherit; font-weight: 600; color: #3e2723;
+    outline: none; transition: all 0.3s;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+input[type="date"]:focus { background: #fff; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5); }
+
+.radio-group {
+    background: rgba(255, 255, 255, 0.3);
+    padding: 4px; border-radius: 30px;
+    display: flex; border: 1px solid rgba(255,255,255,0.4);
+}
+.radio-option { position: relative; cursor: pointer; }
+.radio-option input { display: none; }
+.radio-option span {
+    display: block; padding: 8px 20px; border-radius: 25px;
+    font-size: 0.85rem; font-weight: 600; color: #4e342e;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.radio-option input:checked + span {
+    background: #fff; color: #d84315; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.legend-group { display: flex; gap: 20px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; color: #3e2723; }
+.legend-box { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+.legend-box.disponibile { background: #66bb6a; }
+.legend-box.vip { background: #ffa726; }
+.legend-box.occupato { background: #bdbdbd; }
+
+/* =================================== */
+/* 4. MAPPA & NUOVE ONDE "MAREA"       */
+/* =================================== */
+
+main { flex: 1; display: flex; justify-content: center; position: relative; padding: 0 10px; }
+
+.spiaggia-mappa-container { 
+    width: 100%; 
+    height: calc(100vh - 200px); 
+    border-radius: 30px 30px 0 0; 
+    overflow: hidden; 
+    position: relative;
+    background-color: #e0c29e; 
+    border: 6px solid rgba(255,255,255,0.3);
+    border-bottom: none;
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.1);
+}
+
+/* MARE RIDOTTO (18%) */
+.mare { 
+    height: 18%; 
+    background: linear-gradient(180deg, #1976d2 0%, #42a5f5 100%); 
+    position: relative; 
+    z-index: 1; 
+}
+
+/* CONTAINER ONDE */
+.waves-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Occupa tutto il mare per gestire le profondità */
+    overflow: hidden;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 100px;
+    background-repeat: repeat-x;
+    background-position: bottom;
+    background-size: 50% 100px;
+    transform-origin: center bottom;
+}
+
+/* ANIMAZIONE "MAREA" (TIDE):
+   Simula l'avanzamento dell'acqua sulla sabbia (scaleY + translateY) 
+   combinato con il movimento laterale classico.
+*/
+
+/* ONDA 1 (Sfondo): Lenta e profonda */
+.wave-1 {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 100' preserveAspectRatio='none'%3E%3Cpath d='M0 50 Q 200 100 400 50 T 800 50 V 100 H 0 Z' fill='%232196f3' opacity='0.7'/%3E%3C/svg%3E");
+    height: 120px;
+    animation: flow 20s linear infinite, tide 8s ease-in-out infinite alternate;
+    z-index: 1;
+}
+
+/* ONDA 2 (Media): Più chiara */
+.wave-2 {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 100' preserveAspectRatio='none'%3E%3Cpath d='M0 60 Q 200 20 400 60 T 800 60 V 100 H 0 Z' fill='%2364b5f6' opacity='0.6'/%3E%3C/svg%3E");
+    height: 90px;
+    bottom: -10px;
+    animation: flow 15s linear infinite reverse, tide 6s ease-in-out infinite alternate-reverse;
+    z-index: 2;
+}
+
+/* ONDA 3 (Schiuma): Sbatte sulla riva */
+.wave-3 {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 100' preserveAspectRatio='none'%3E%3Cpath d='M0 70 Q 200 40 400 70 T 800 70 V 100 H 0 Z' fill='%23ffffff' opacity='0.8'/%3E%3C/svg%3E");
+    height: 60px;
+    bottom: -20px;
+    /* Movimento veloce di risacca */
+    animation: flow 10s linear infinite, crash 4s ease-in-out infinite; 
+    z-index: 3;
+}
+
+@keyframes flow {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes tide {
+    0% { transform: translateY(10px) translateX(0); }
+    100% { transform: translateY(-10px) translateX(-20px); } /* L'acqua sale */
+}
+
+@keyframes crash {
+    0% { transform: scaleY(1) translateY(0) translateX(0); opacity: 0.6; }
+    50% { transform: scaleY(1.5) translateY(-15px) translateX(-10px); opacity: 0.9; } /* L'onda si alza e avanza */
+    100% { transform: scaleY(1) translateY(0) translateX(0); opacity: 0.6; }
+}
+
+/* SABBIA (82%) */
+.sabbia { 
+    height: 82%; 
+    background-color: #e0c29e;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+    position: relative; 
+    z-index: 2; 
+}
+
+.wooden-path { 
+    position: absolute; top: 0; bottom: 80px; width: 55px; 
+    background: #5d4037; 
+    background-image: repeating-linear-gradient(to bottom, #5d4037, #3e2723 2px, #5d4037 3px, #5d4037 15px);
+    box-shadow: 4px 0 10px rgba(0,0,0,0.15);
+    border-radius: 4px;
+}
+
+.avenue-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; z-index: 7; }
+.sidewalk { 
+    position: absolute; bottom: 25px; width: 100%; height: 55px; 
+    background: #d7ccc8; 
+    background-image: linear-gradient(90deg, rgba(255,255,255,0.5) 2px, transparent 2px);
+    background-size: 50px 100%;
+}
+.road { position: absolute; bottom: 0; width: 100%; height: 25px; background: #37474f; border-top: 2px solid #cfd8dc; }
+
+.settore-label { 
+    position: absolute; top: 1%; transform: translateX(-50%); 
+    color: rgba(62, 39, 35, 0.15); 
+    font-weight: 900; font-size: 6rem; pointer-events: none;
+    font-family: 'Times New Roman', serif;
+}
+
+/* OMBRELLONI */
+.ombrellone-wrapper { 
+    position: absolute; width: 44px; height: 44px; margin: -22px;
+    cursor: pointer; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    display: flex; justify-content: center; align-items: center; z-index: 10;
+}
+.ombrellone-wrapper:hover { transform: scale(1.4); z-index: 100; }
+
+.ombrellone-icon { 
+    width: 100%; height: 100%; border-radius: 50%; 
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+    border: 2px solid #fff; position: relative;
+}
+.ombrellone-icon::after { 
+    content: ''; position: absolute; top: 50%; left: 50%; width: 8px; height: 8px; 
+    background: #fff; border-radius: 50%; transform: translate(-50%, -50%); 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.ombrellone-wrapper.disponibile .ombrellone-icon { background: repeating-conic-gradient(#66bb6a 0deg 20deg, #f1f8e9 20deg 40deg); }
+.ombrellone-wrapper.disponibile.vip .ombrellone-icon { background: repeating-conic-gradient(#ffa726 0deg 20deg, #fff3e0 20deg 40deg); }
+.ombrellone-wrapper.occupato .ombrellone-icon { background: #cfd8dc; filter: grayscale(1); opacity: 0.9; }
+
+/* NUMERI GRANDI & LEGGIBILI */
+.ombrellone-numero { 
+    position: absolute; 
+    background: #fff; color: #3e2723;
+    padding: 4px 8px; /* Padding aumentato */
+    border-radius: 8px; 
+    font-size: 14px; /* Font aumentato */
+    font-weight: 800; 
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+    border: 1px solid #d7ccc8;
+    z-index: 15;
+    pointer-events: none;
+    min-width: 15px; text-align: center;
+}
+/* Distanza aumentata per accomodare la grandezza */
+.pos-numero-dx .ombrellone-numero { left: 130%; top: 50%; transform: translateY(-50%); }
+.pos-numero-sx .ombrellone-numero { right: 130%; top: 50%; transform: translateY(-50%); }
+
+.messaggio { margin: 10px auto; padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.9); color: #333; max-width: 600px; text-align: center; }
+.messaggio.errore { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
