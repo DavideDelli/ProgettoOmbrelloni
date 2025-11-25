@@ -23,7 +23,7 @@
     </nav>
     <main>
         <div class="glass-panel" style="text-align: center; padding: 50px 30px; margin-top: 5vh;">
-            <h1 style="font-size: 3rem; margin-bottom: 20px;">LUSSO E RELAX</h1>
+            <h1 style="font-size: 3rem; margin-bottom: 20px;">LIDO CODICI SBALLATI</h1>
             <p style="font-size: 1.3rem; color: #5d4037; margin-bottom: 40px;">
                 La tua oasi esclusiva ti aspetta. 
                 <br>Prenota il tuo posto al sole con un click.

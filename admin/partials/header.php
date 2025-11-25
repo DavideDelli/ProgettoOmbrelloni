@@ -77,7 +77,7 @@ function getNomeTariffa($codice) {
         <a href="index.php">Dashboard</a>
         <a href="gestione_tariffe.php">Gestione Tariffe</a>
         <a href="gestione_date.php">Gestione Date</a>
-        <a href="../index.php" target="_blank">Vedi Sito</a>
+        <a href="../index.php" target="_blank">Torna Al Sito</a>
         <a href="logout.php">Logout</a>
     </nav>
     <main>
