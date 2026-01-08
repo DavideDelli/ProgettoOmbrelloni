@@ -1,5 +1,7 @@
 # File: .gitignore
 
+.idea/
+
 # Ignora i file di connessione locali che contengono le password
 db_connection.php
 src/db_connection.php
