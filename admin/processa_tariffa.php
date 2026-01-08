@@ -22,6 +22,7 @@ try {
         $codice = $_POST['codice'];
         $prezzo = $_POST['prezzo'];
         $tipo = $_POST['tipo'];
+        $descrizione = $_POST['descrizione'] ?? '';
         $numMinGiorni = !empty($_POST['numMinGiorni']) ? $_POST['numMinGiorni'] : null;
         $dataInizio = $_POST['dataInizio'];
         $dataFine = $_POST['dataFine'];
@@ -31,7 +32,7 @@ try {
             throw new Exception("Tutti i campi obbligatori devono essere compilati.");
         }
 
-        $sql_tariffa = "INSERT INTO tariffa (codice, prezzo, tipo, numMinGiorni, dataInizio, dataFine) VALUES (:codice, :prezzo, :tipo, :numMinGiorni, :dataInizio, :dataFine)";
+        $sql_tariffa = "INSERT INTO tariffa (codice, prezzo, tipo, numMinGiorni, dataInizio, dataFine, descrizione) VALUES (:codice, :prezzo, :tipo, :numMinGiorni, :dataInizio, :dataFine, :descrizione)";
         $stmt_tariffa = $pdo->prepare($sql_tariffa);
         $stmt_tariffa->execute([
             ':codice' => $codice,
@@ -39,7 +40,8 @@ try {
             ':tipo' => $tipo,
             ':numMinGiorni' => $numMinGiorni,
             ':dataInizio' => $dataInizio,
-            ':dataFine' => $dataFine
+            ':dataFine' => $dataFine,
+            ':descrizione' => $descrizione
         ]);
 
         if (!empty($tipologie)) {
@@ -57,6 +59,7 @@ try {
         $codice = $_POST['codice'];
         $prezzo = $_POST['prezzo'];
         $tipo = $_POST['tipo'];
+        $descrizione = $_POST['descrizione'] ?? '';
         $numMinGiorni = !empty($_POST['numMinGiorni']) ? $_POST['numMinGiorni'] : null;
         $dataInizio = $_POST['dataInizio'];
         $dataFine = $_POST['dataFine'];
@@ -66,7 +69,7 @@ try {
             throw new Exception("Tutti i campi obbligatori devono essere compilati.");
         }
 
-        $sql_update = "UPDATE tariffa SET codice = :codice, prezzo = :prezzo, tipo = :tipo, numMinGiorni = :numMinGiorni, dataInizio = :dataInizio, dataFine = :dataFine WHERE codice = :codice_originale";
+        $sql_update = "UPDATE tariffa SET codice = :codice, prezzo = :prezzo, tipo = :tipo, numMinGiorni = :numMinGiorni, dataInizio = :dataInizio, dataFine = :dataFine, descrizione = :descrizione WHERE codice = :codice_originale";
         $stmt_update = $pdo->prepare($sql_update);
         $stmt_update->execute([
             ':codice' => $codice,
@@ -75,6 +78,7 @@ try {
             ':numMinGiorni' => $numMinGiorni,
             ':dataInizio' => $dataInizio,
             ':dataFine' => $dataFine,
+            ':descrizione' => $descrizione,
             ':codice_originale' => $codice_originale
         ]);
 

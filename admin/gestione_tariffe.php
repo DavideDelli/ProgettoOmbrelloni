@@ -56,7 +56,7 @@ try {
         <?php else: ?>
             <?php foreach ($tariffe as $tariffa): ?>
             <tr>
-                <td><strong><?= htmlspecialchars($tariffa['codice']) ?></strong><br><small><?= htmlspecialchars(getNomeTariffa($tariffa['codice'])) ?></small></td>
+                <td><strong><?= htmlspecialchars($tariffa['codice']) ?></strong><br><small><?= htmlspecialchars($tariffa['descrizione'] ?? '') ?></small></td>
                 <td>€ <?= htmlspecialchars(number_format($tariffa['prezzo'], 2, ',', '.')) ?></td>
                 <td><?= htmlspecialchars($tariffa['tipo']) ?></td>
                 <td>Dal <?= htmlspecialchars(date("d/m/Y", strtotime($tariffa['dataInizio']))) ?><br>al <?= htmlspecialchars(date("d/m/Y", strtotime($tariffa['dataFine']))) ?></td>

@@ -28,6 +28,10 @@ try {
             <input type="text" id="codice" name="codice" required maxlength="10">
         </div>
         <div class="form-group">
+            <label for="descrizione">Descrizione (es. Giornaliero Standard):</label>
+            <input type="text" id="descrizione" name="descrizione" required>
+        </div>
+        <div class="form-group">
             <label for="prezzo">Prezzo:</label>
             <input type="number" id="prezzo" name="prezzo" step="0.01" min="0" required>
         </div>
@@ -74,5 +78,29 @@ try {
         <button type="submit">Crea Tariffa</button>
     </div>
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tipoSelect = document.getElementById('tipo');
+    const numMinGiorniInput = document.getElementById('numMinGiorni');
+
+    function aggiornaStatoGiorni() {
+        if (!tipoSelect || !numMinGiorniInput) return;
+
+        if (tipoSelect.value === 'GIORNALIERO') {
+            numMinGiorniInput.value = 1;
+            numMinGiorniInput.readOnly = true;
+            numMinGiorniInput.style.opacity = '0.5';
+        } else if (tipoSelect.value === 'SETTIMANALE') {
+            numMinGiorniInput.value = 7;
+            numMinGiorniInput.readOnly = true;
+            numMinGiorniInput.style.opacity = '0.5';
+        }
+    }
+
+    tipoSelect.addEventListener('change', aggiornaStatoGiorni);
+    aggiornaStatoGiorni(); // Imposta lo stato iniziale al caricamento
+});
+</script>
 
 <?php require_once 'partials/footer.php'; ?>

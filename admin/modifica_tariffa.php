@@ -50,6 +50,10 @@ if (empty($codice_tariffa)) {
                 <input type="text" id="codice" name="codice" value="<?= htmlspecialchars($tariffa['codice']) ?>" required maxlength="10">
             </div>
             <div class="form-group">
+                <label for="descrizione">Descrizione:</label>
+                <input type="text" id="descrizione" name="descrizione" value="<?= htmlspecialchars($tariffa['descrizione'] ?? '') ?>" required>
+            </div>
+            <div class="form-group">
                 <label for="prezzo">Prezzo:</label>
                 <input type="number" id="prezzo" name="prezzo" value="<?= htmlspecialchars($tariffa['prezzo']) ?>" step="0.01" min="0" required>
             </div>
@@ -97,5 +101,29 @@ if (empty($codice_tariffa)) {
         </div>
     </form>
 <?php endif; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tipoSelect = document.getElementById('tipo');
+    const numMinGiorniInput = document.getElementById('numMinGiorni');
+
+    function aggiornaStatoGiorni() {
+        if (!tipoSelect || !numMinGiorniInput) return;
+
+        if (tipoSelect.value === 'GIORNALIERO') {
+            numMinGiorniInput.value = 1;
+            numMinGiorniInput.readOnly = true;
+            numMinGiorniInput.style.opacity = '0.5';
+        } else if (tipoSelect.value === 'SETTIMANALE') {
+            numMinGiorniInput.value = 7;
+            numMinGiorniInput.readOnly = true;
+            numMinGiorniInput.style.opacity = '0.5';
+        }
+    }
+
+    tipoSelect.addEventListener('change', aggiornaStatoGiorni);
+    aggiornaStatoGiorni(); // Imposta lo stato iniziale al caricamento
+});
+</script>
 
 <?php require_once 'partials/footer.php'; ?>

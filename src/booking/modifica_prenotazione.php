@@ -10,18 +10,6 @@ if (!isset($_SESSION['codice_cliente'])) {
 
 require_once '../db_connection.php';
 
-function getNomeTariffa(string $codice): string {
-    $nomi = [
-        'STD_D' => 'Giornaliero Standard', 'STD_W' => 'Settimanale Standard',
-        'VIP_D' => 'Giornaliero VIP', 'VIP_W' => 'Settimanale VIP',
-        'STD_W_PREM' => 'Settimanale Premium', 'STD_W_APE'  => 'Settimanale Ape',
-        'VIP_W_PREM' => 'Settimanale VIP Premium', 'VIP_W_APE'  => 'Settimanale VIP Ape',
-        'STD_D_PREM' => 'Giornaliero Premium (con asciugamani)', 'STD_D_APE'  => 'Giornaliero Ape (con aperitivo)',
-        'VIP_D_PREM' => 'Giornaliero VIP Premium (con asciugamani)', 'VIP_D_APE'  => 'Giornaliero VIP Ape (con aperitivo)',
-    ];
-    return $nomi[$codice] ?? $codice;
-}
-
 $errore = '';
 if (isset($_SESSION['errore_modifica'])) {
     $errore = $_SESSION['errore_modifica'];
@@ -42,11 +30,13 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             SELECT 
                 c.numProgr, c.importo, c.data AS data_inizio, c.dataFine AS data_fine, c.codTariffa,
                 o.id AS id_ombrellone, o.settore, o.numFila, o.numPostoFila, o.codTipologia,
-                tip.nome AS nome_tipologia
+                tip.nome AS nome_tipologia,
+                tar.descrizione AS nome_tariffa_attuale
             FROM contratto c
             JOIN giornodisponibilita gd ON c.numProgr = gd.numProgrContratto
             JOIN ombrellone o ON gd.idOmbrellone = o.id
             JOIN tipologia tip ON o.codTipologia = tip.codice
+            LEFT JOIN tariffa tar ON c.codTariffa = tar.codice
             WHERE c.numProgr = :id_contratto AND c.codiceCliente = :codice_cliente
             GROUP BY c.numProgr
         ";
@@ -66,7 +56,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             $tipo_prenotazione = ($prenotazione['data_fine'] !== null) ? 'settimanale' : 'giornaliero';
             $tipo_tariffa_db = ($tipo_prenotazione === 'settimanale') ? 'SETTIMANALE' : 'GIORNALIERO';
 
-            $sql_tariffe = "SELECT tar.codice, tar.prezzo FROM tariffa tar JOIN tipologiatariffa tt ON tar.codice = tt.codTariffa WHERE tt.codTipologia = :cod_tipologia AND tar.tipo = :tipo_tariffa ORDER BY tar.prezzo ASC";
+            $sql_tariffe = "SELECT tar.codice, tar.prezzo, tar.descrizione FROM tariffa tar JOIN tipologiatariffa tt ON tar.codice = tt.codTariffa WHERE tt.codTipologia = :cod_tipologia AND tar.tipo = :tipo_tariffa ORDER BY tar.prezzo ASC";
             $stmt_tariffe = $pdo->prepare($sql_tariffe);
             $stmt_tariffe->execute(['cod_tipologia' => $prenotazione['codTipologia'], 'tipo_tariffa' => $tipo_tariffa_db]);
             $tariffe_disponibili = $stmt_tariffe->fetchAll(PDO::FETCH_ASSOC);
@@ -103,6 +93,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
                 <div class="riepilogo-box" style="background: rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.2); box-shadow: none; margin-bottom: 2rem;">
                     <p><strong>Stai modificando la prenotazione N°:</strong> <?= htmlspecialchars($prenotazione['numProgr']) ?></p>
                     <p><strong>Ombrellone:</strong> Settore <?= htmlspecialchars($prenotazione['settore']) ?>, Fila <?= htmlspecialchars($prenotazione['numFila']) ?>, Posto <?= htmlspecialchars($prenotazione['numPostoFila']) ?></p>
+                    <p><strong>Tariffa Attuale:</strong> <?= htmlspecialchars($prenotazione['nome_tariffa_attuale'] ?? 'N/D') ?></p>
                     <p id="prezzo_totale" style="font-size: 1.3em; font-weight: bold; margin-top: 1rem; text-align: center; color: #FFF;"><strong>Nuovo Prezzo:</strong> €0,00</p>
                 </div>
 
@@ -120,7 +111,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
                         <?php foreach ($tariffe_disponibili as $tariffa): ?>
                             <label style="display: block; margin-bottom: 10px; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px;">
                                 <input type="radio" name="cod_tariffa_nuovo" value="<?= htmlspecialchars($tariffa['codice']) ?>" data-prezzo="<?= $tariffa['prezzo'] ?>" <?= ($tariffa['codice'] === $prenotazione['codTariffa']) ? 'checked' : '' ?>>
-                                <?= htmlspecialchars(getNomeTariffa($tariffa['codice'])) ?> (€<?= number_format($tariffa['prezzo'], 2, ',', '.') ?>)
+                                <?= htmlspecialchars($tariffa['descrizione']) ?> (€<?= number_format($tariffa['prezzo'], 2, ',', '.') ?>)
                             </label>
                         <?php endforeach; ?>
                     </div>

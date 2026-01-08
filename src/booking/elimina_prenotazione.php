@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['conferma_elimina'])) 
 }
 
 try {
-    $sql = "SELECT c.numProgr, MIN(gd.data) AS data_inizio, MAX(gd.data) AS data_fine, o.settore, o.numFila, o.numPostoFila FROM contratto c JOIN giornodisponibilita gd ON c.numProgr = gd.numProgrContratto JOIN ombrellone o ON gd.idOmbrellone = o.id WHERE c.numProgr = :id_contratto AND c.codiceCliente = :codice_cliente GROUP BY c.numProgr";
+    $sql = "SELECT c.numProgr, MIN(gd.data) AS data_inizio, MAX(gd.data) AS data_fine, o.settore, o.numFila, o.numPostoFila, t.descrizione AS nome_tariffa FROM contratto c JOIN giornodisponibilita gd ON c.numProgr = gd.numProgrContratto JOIN ombrellone o ON gd.idOmbrellone = o.id LEFT JOIN tariffa t ON c.codTariffa = t.codice WHERE c.numProgr = :id_contratto AND c.codiceCliente = :codice_cliente GROUP BY c.numProgr";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['id_contratto' => $id_contratto, 'codice_cliente' => $codice_cliente]);
     $prenotazione = $stmt->fetch();
@@ -83,6 +83,7 @@ try {
             <div class="riepilogo-box" style="background: rgba(0,0,0,0.1); border: 1px solid rgba(255,255,255,0.2); box-shadow: none; text-align:left; margin-top: 20px;">
                 <p><strong>N° Contratto:</strong> <?= htmlspecialchars($prenotazione['numProgr']) ?></p>
                 <p><strong>Ombrellone:</strong> Settore <?= htmlspecialchars($prenotazione['settore']) ?>, Fila <?= htmlspecialchars($prenotazione['numFila']) ?>, Posto <?= htmlspecialchars($prenotazione['numPostoFila']) ?></p>
+                <p><strong>Tariffa:</strong> <?= htmlspecialchars($prenotazione['nome_tariffa'] ?? 'N/D') ?></p>
                 <p>
                     <strong>Periodo:</strong> 
                     <?php if ($prenotazione['data_inizio'] !== $prenotazione['data_fine']): ?>

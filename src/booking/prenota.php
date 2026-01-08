@@ -10,24 +10,6 @@ if (!isset($_SESSION['codice_cliente'])) {
 
 require_once '../db_connection.php';
 
-function getNomeTariffa(string $codice): string {
-    $nomi = [
-        'STD_D' => 'Giornaliero Standard',
-        'STD_W' => 'Settimanale Standard',
-        'VIP_D' => 'Giornaliero VIP',
-        'VIP_W' => 'Settimanale VIP',
-        'STD_W_PREM' => 'Settimanale Premium (con asciugamani)',
-        'STD_W_APE' => 'Settimanale Ape (con aperitivo tutti i giorni)',
-        'VIP_W_PREM' => 'Settimanale VIP Premium (con asciugamani)',
-        'VIP_W_APE' => 'Settimanale VIP Ape (con aperitivo tutti i giorni)',
-        'STD_D_PREM' => 'Giornaliero Premium (con asciugamani)',
-        'STD_D_APE' => 'Giornaliero Ape (con aperitivo)',
-        'VIP_D_PREM' => 'Giornaliero VIP Premium (con asciugamani)',
-        'VIP_D_APE' => 'Giornaliero VIP Ape (con aperitivo)',
-    ];
-    return $nomi[$codice] ?? $codice;
-}
-
 $ombrellone = null;
 $errore = '';
 $data_selezionata = '';
@@ -50,7 +32,7 @@ if (isset($_GET['id'], $_GET['data'], $_GET['tipo'])) {
         $errore = "Ombrellone non trovato.";
     } else {
         $tipo_tariffa_db = ($tipo_prenotazione === 'settimanale') ? 'SETTIMANALE' : 'GIORNALIERO';
-        $sql_tariffe = "SELECT tar.codice, tar.prezzo FROM tariffa tar JOIN tipologiatariffa tt ON tar.codice = tt.codTariffa WHERE tt.codTipologia = :cod_tipologia AND tar.tipo = :tipo_tariffa ORDER BY tar.prezzo ASC";
+        $sql_tariffe = "SELECT tar.codice, tar.prezzo, tar.descrizione FROM tariffa tar JOIN tipologiatariffa tt ON tar.codice = tt.codTariffa WHERE tt.codTipologia = :cod_tipologia AND tar.tipo = :tipo_tariffa ORDER BY tar.prezzo ASC";
         $stmt_tariffe = $pdo->prepare($sql_tariffe);
         $stmt_tariffe->execute(['cod_tipologia' => $ombrellone['cod_tipologia'], 'tipo_tariffa' => $tipo_tariffa_db]);
         $tariffe_disponibili = $stmt_tariffe->fetchAll();
@@ -126,7 +108,7 @@ if (isset($_GET['id'], $_GET['data'], $_GET['tipo'])) {
                             <?php foreach ($tariffe_disponibili as $index => $tariffa): ?>
                                 <label style="display: block; margin-bottom: 10px; background: rgba(0,0,0,0.1); padding: 10px; border-radius: 8px;">
                                     <input type="radio" name="cod_tariffa" value="<?= htmlspecialchars($tariffa['codice']) ?>" data-prezzo="<?= $tariffa['prezzo'] ?>" <?= $index === 0 ? 'checked' : '' ?>>
-                                    <?= htmlspecialchars(getNomeTariffa($tariffa['codice'])) ?> 
+                                    <?= htmlspecialchars($tariffa['descrizione']) ?> 
                                     (€<?= number_format($tariffa['prezzo'], 2, ',', '.') ?>)
                                 </label>
                             <?php endforeach; ?>
