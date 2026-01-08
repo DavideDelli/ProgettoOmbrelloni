@@ -54,10 +54,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errore = "Le date inserite non sono valide. Assicurati che la data di inizio sia precedente o uguale a quella di fine.";
     }
 }
+
+// Recupero l'ultima data disponibile per mostrarla all'utente
+$ultima_data = null;
+try {
+    $stmt_last = $pdo->query("SELECT MAX(data) FROM giornodisponibilita");
+    $ultima_data = $stmt_last->fetchColumn();
+} catch (Exception $e) {
+    // Ignora errori non critici per la visualizzazione
+}
 ?>
 
 <h1>Gestione Date Disponibili</h1>
 <p>Usa questo modulo per "aprire" la spiaggia per un determinato periodo. Il sistema creerà le disponibilità per tutti gli ombrelloni nelle date specificate.<br><strong>Attenzione:</strong> L'operazione non sovrascrive le date esistenti, ma aggiunge solo quelle mancanti.</p>
+
+<div class="glass-panel" style="text-align: center; margin-bottom: 20px; padding: 15px;">
+    <h3 style="margin-top: 0;">Stato Attuale Calendario</h3>
+    <?php if ($ultima_data): ?>
+        <p style="font-size: 1.1em;">Le disponibilità sono attualmente caricate fino al: <strong style="color: #fff; background: rgba(0,0,0,0.2); padding: 2px 8px; border-radius: 4px;"><?= date("d/m/Y", strtotime($ultima_data)) ?></strong></p>
+    <?php else: ?>
+        <p>Nessuna data disponibile caricata nel sistema.</p>
+    <?php endif; ?>
+</div>
 
 <?php if ($messaggio): ?><div class="messaggio successo glass-panel"><p><?= htmlspecialchars($messaggio) ?></p></div><?php endif; ?>
 <?php if ($errore): ?><div class="messaggio errore glass-panel"><p><?= htmlspecialchars($errore) ?></p></div><?php endif; ?>
