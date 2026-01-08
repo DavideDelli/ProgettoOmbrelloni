@@ -19,7 +19,7 @@
             <h3>Trova il tuo codice</h3>
             <p style="margin-bottom:20px; text-align: center;">Inserisci i dati esatti con cui ti sei registrato.</p>
             
-            <?php if (isset($_GET['errore'])):
+            <?php if (isset($_GET['errore'])): ?>
                 <div class="messaggio errore glass-panel" style="margin-bottom: 20px;">
                     <p>Nessun cliente trovato con i dati inseriti. Controlla e riprova.</p>
                 </div>
